@@ -1,13 +1,29 @@
 import Data.List
 
 -- Define the Room data type
-data Room = Room {roomId :: Int, roomName :: String, roomDescription :: String, roomItems :: [Item]}
+data Room = Room
+  { roomId :: Int,
+    roomName :: String,
+    roomDescription :: String,
+    roomItems :: [Item],
+    eastRoom :: Maybe Room,
+    westRoom :: Maybe Room,
+    northRoom :: Maybe Room,
+    southRoom :: Maybe Room
+  }
 
 -- Define the Item data type
-data Item = Item {itemId :: Int, itemName :: String, itemDescription :: String}
+data Item = Item
+  { itemId :: Int,
+    itemName :: String,
+    itemDescription :: String
+  }
 
 -- Define the Player data type
-data Player = Player {playerName :: String, playerInventory :: [Item]}
+data Player = Player
+  { playerName :: String,
+    playerInventory :: [Item]
+  }
 
 -- Function to print a separator line
 printSeparator :: IO ()
@@ -89,7 +105,11 @@ room1 =
     { roomId = 1,
       roomName = "Room 1",
       roomDescription = "a small room with a table",
-      roomItems = [Item 1 "Key" "a shiny key", Item 2 "Book" "an old book"]
+      roomItems = [Item 1 "Key" "a shiny key", Item 2 "Book" "an old book"],
+      eastRoom = Just room2,
+      westRoom = Nothing,
+      northRoom = Nothing,
+      southRoom = Nothing
     }
 
 room2 :: Room
@@ -98,7 +118,11 @@ room2 =
     { roomId = 2,
       roomName = "Room 2",
       roomDescription = "a large room with a locked door",
-      roomItems = [Item 3 "Candle" "a burning candle", Item 4 "Map" "a detailed map"]
+      roomItems = [Item 3 "Candle" "a burning candle", Item 4 "Map" "a detailed map"],
+      eastRoom = Nothing,
+      westRoom = Just room1,
+      northRoom = Nothing,
+      southRoom = Nothing
     }
 
 -- Entry point of the program
