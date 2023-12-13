@@ -19,20 +19,12 @@ data Object = Object
   }
   deriving (Show)
 
-data Door = Door
-  { doorName :: String,
-    openable :: Bool,
-    paths :: [(Room, Direction, Room)]
-  }
-  deriving (Show)
-
 -- Define a data type to represent rooms
 data Room = Room
   { roomName :: String,
     roomDescription :: String,
     roomObjects :: [Object],
-    roomExits :: Map.Map Direction Room,
-    doors :: [Door]
+    roomExits :: Map.Map Direction Room
   }
   deriving (Show)
 
@@ -53,12 +45,12 @@ findObject :: String -> [Object] -> Maybe Object
 findObject targetName = find (\obj -> targetName == objectName obj)
 
 -- Function to find Room by name in list from GameState (allRooms)
-findRoom :: String -> [Room] -> Maybe Room
-findRoom targetName = find (\room -> targetName == roomName room)
+findRoom :: String -> [Room] -> Room
+findRoom targetName rooms = case find (\room -> targetName == roomName room) rooms of
+  Just room -> room
+  Nothing -> error $ "Room not found: " ++ targetName
 
 -- Function to find a door by name in a list
-findDoor :: String -> [Door] -> Maybe Door
-findDoor targetName = find (\door -> targetName == doorName door)
 
 -- Print instructions
 printInstructions :: IO ()
@@ -103,25 +95,34 @@ pickUp targetName gameState =
       _ -> (Nothing, Just "Object not pickable")
     Nothing -> (Nothing, Just "Object not found")
 
+openDoor :: String -> GameState -> (Maybe GameState, Maybe String)
+openDoor doorToOpen gameState =
+  case findObject doorToOpen (roomObjects $ currentRoom gameState) of
+    Just obj -> case Map.lookup "openable" (objectValues obj) of
+      Just True ->
+        -- Make a case of from the doorName, and the cases should call separate functions like openNorthDoor, openSouthDoor, etc.
+        case doorToOpen of
+          "North-Door" -> openNorthDoor gameState
+          _ -> (Nothing, Just "Door not found")
+
+openNorthDoor :: GameState -> (Maybe GameState, Maybe String)
+openNorthDoor gameState =
+  let updatedInitialRoom = addExit North (findRoom "Next Room" rooms) (findRoom "Dark Room" rooms)
+      updatedNextRoom = addExit South (findRoom "Dark Room" rooms) (findRoom "Next Room" rooms)
+   in (Just $ gameState {allRooms = Map.fromList [(roomName updatedInitialRoom, updatedInitialRoom), (roomName updatedNextRoom, updatedNextRoom)], currentRoom = updatedInitialRoom}, Just "North Door opened.\n")
+  where
+    rooms = Map.elems (allRooms gameState)
+
+-- Function to add an exit to a room
+addExit :: Direction -> Room -> Room -> Room
+addExit direction toRoom fromRoom =
+  fromRoom {roomExits = Map.insert direction toRoom (roomExits fromRoom)}
+
 -- Function to inspect an object in the current room
 inspect :: String -> GameState -> Maybe String
 inspect targetName gameState = do
   obj <- findObject targetName (roomObjects $ currentRoom gameState)
   return $ "You inspect the " ++ targetName ++ ".\n" ++ objectDescription obj
-
--- Function to open a door and create paths between rooms
-openDoor :: String -> Room -> Maybe (Room, String)
-openDoor doorName room = do
-  door <- findDoor doorName (doors room)
-  guard (openable door)
-  let updatedDoor = door {openable = False}
-  let updatedPaths = paths updatedDoor
-  return $ foldr (\(fromRoom, dir, toRoom) -> addPath fromRoom dir toRoom) room updatedPaths
-
--- Function toadd a path between rooms
-addPath :: Room -> Direction -> Room -> Room -> Room
-addPath fromRoom dir toRoom room =
-  room {roomExits = Map.insert dir toRoom (roomExits fromRoom)}
 
 -- Function to list names of items in the player's inventory
 listInventory :: GameState -> String
@@ -131,6 +132,13 @@ listInventory gameState =
     else "Inventory:\n" ++ intercalate "\n" (map (\obj -> "  - " ++ objectName obj) inventoryList)
   where
     inventoryList = inventory gameState
+
+-- Function to look at exits in the current room
+checkExits :: GameState -> IO ()
+checkExits gameState = do
+  let exits = roomExits (currentRoom gameState)
+  putStrLn "Available directions:"
+  mapM_ (\(dir, room) -> putStrLn $ show dir ++ " -> " ++ roomName room) (Map.toList exits)
 
 -- Example game initialization
 initialRoom :: Room
@@ -146,14 +154,6 @@ initialRoom =
             "It's a door leading out of the room on the north side. It's closed right now, but you can open it."
             (Map.fromList [("pickable", False), ("openable", True)])
         ],
-      doors =
-        [ Door
-            "North-Door"
-            True
-            [ (initialRoom, North, nextRoom),
-              (nextRoom, South, initialRoom)
-            ]
-        ],
       roomExits = Map.empty
     }
 
@@ -164,8 +164,7 @@ nextRoom =
       roomDescription = "You enter a mysterious room.\n",
       roomObjects =
         [Object "book" "An old dusty tome." (Map.fromList [("pickable", True)])],
-      doors = [],
-      roomExits = Map.empty
+      roomExits = Map.fromList [(South, initialRoom)]
     }
 
 initialState :: GameState
@@ -211,6 +210,9 @@ gameLoop gameState = do
     ["check", "inventory"] -> do
       putStrLn $ listInventory gameState
       gameLoop gameState
+    ["check", "exits"] -> do
+      checkExits gameState
+      gameLoop gameState
     _ -> invalidInput
   where
     handleMove direction = case move direction gameState of
@@ -229,14 +231,6 @@ gameLoop gameState = do
             Nothing -> gameLoop gameState
         Nothing -> return ()
 
-    handleInspect itemName = case inspect itemName gameState of
-      Just result -> do
-        putStrLn result
-        gameLoop gameState
-      Nothing -> do
-        putStrLn $ "There is no " ++ itemName ++ " here."
-        gameLoop gameState
-
     handleOpen itemName = do
       let (newState, resultMsg) = openDoor itemName gameState
       case resultMsg of
@@ -246,6 +240,14 @@ gameLoop gameState = do
             Just state -> gameLoop state
             Nothing -> gameLoop gameState
         Nothing -> return ()
+
+    handleInspect itemName = case inspect itemName gameState of
+      Just result -> do
+        putStrLn result
+        gameLoop gameState
+      Nothing -> do
+        putStrLn $ "There is no " ++ itemName ++ " here."
+        gameLoop gameState
 
     handleLook = do
       putStrLn "You look around and see:"
