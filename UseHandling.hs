@@ -85,5 +85,6 @@ fixConsole gameState =
       updatedInventory = filter (\o -> objectName o /= "electrical_tools") $
                            inventory gameState
    in (Just $ gameState {currentRoom = updatedRoom,  
+                        allRooms = Map.insert (roomName updatedRoom) updatedRoom (allRooms gameState),
                          inventory = updatedInventory},
-       Just "You manage to fix the console and use it to lower down the remaining escape pod. You can now access the escape_pod_launch_console inside the pod and get out of here.")
+       Just "You manage to fix the console and use it to lower down the remaining escape pod. You can now access the *escape_pod_launch_console* inside the pod and get out of here.")
