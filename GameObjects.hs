@@ -27,7 +27,9 @@ initialState =
         Map.fromList
           [ ("Crew Bedroom", crewBedroom),
             ("Crew Bedroom Vent", crewBedroomVent),
-            ("Main Corridor", mainCorridor)
+            ("Main Corridor", mainCorridor),
+            ("escape_pods", escape_pods),
+            ("workshop", workshop)
           ]
     }
 
