@@ -18,6 +18,10 @@ useItem itemName targetName gameState =
           ("hand_saw", "table") -> sawOffTableLeg gameState
           ("Desk_Key", "Desk") -> keyUnlock itemName targetName gameState
           ("Crew_Access_Card", "Security_Door") -> keyUnlock itemName targetName gameState
+          ("hand_saw", "table") -> sawOffTableLeg gameState
+          ("wooden_table_leg", "small_fire") -> set_leg_on_fire gameState
+          ("makeshift_torch", "alien_mass") -> set_alien_on_fire gameState
+          ("engineering_chief_access_card", "engineering_chief_office_door") -> keyUnlock itemName targetName gameState
           _ -> (Nothing, Just "Item not found")
       Just False -> (Nothing, Just "This item cannot be used.")
       _ -> (Nothing, Just "This item cannot be used.")
@@ -64,7 +68,6 @@ set_alien_on_fire gameState =
       updatedInventory = filter (\o -> objectName o /= "makeshift_torch")
                              (inventory gameState)
       updatedRoom' = addExit South "escape_pods" updatedRoom
-                             
    in (Just $ gameState {currentRoom = updatedRoom',
                          inventory = updatedInventory,
                          allRooms = Map.insert (roomName updatedRoom') updatedRoom' (allRooms gameState)},
