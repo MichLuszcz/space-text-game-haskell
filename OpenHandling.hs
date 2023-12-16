@@ -38,3 +38,13 @@ openLocker gameState =
       updatedRoom = (currentRoom gameState) {roomObjects = newRoomObjectsWithCard}
       updatedAllRooms = Map.insert (roomName updatedRoom) updatedRoom (allRooms gameState)
    in (Just $ gameState {allRooms = updatedAllRooms, currentRoom = updatedRoom}, Just "\nLocker opened.\n")
+
+
+openToolbox :: GameState -> (Maybe GameState, Maybe String)
+openToolbox gameState =
+  let newRoomObjects = filter (\o -> objectName o /= "toolbox") (roomObjects $ currentRoom gameState)
+      newRoomObjectsWithTools = hand_saw : electrical_tools : newRoomObjects  
+      updatedRoom = (currentRoom gameState) {roomObjects = newRoomObjectsWithTools}
+      updatedAllRooms = Map.insert (roomName updatedRoom) updatedRoom (allRooms gameState)
+   in (Just $ gameState {allRooms = updatedAllRooms, currentRoom = updatedRoom},
+      Just "Toolbox opened, you see a *hand_saw* and *electrical_tools*. The saw seems to be covered in rust, but it might be good for a single use.")
