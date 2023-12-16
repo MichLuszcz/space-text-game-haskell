@@ -153,10 +153,10 @@ workshop =
 
 -- TODO: add destroy handling
 alien_mass :: Object
-alien_mass = Object "alien_mass" "A strange black mass near the *workshop_window* blocks the path south. It pulsates slightly, as if breathing.\n
-  Underneath it you see one of your collegues being slowly absorbed by what you assume to be some kind of alien intruder. \n
-    A familiar smell of fuel fumes seems to be eminating from the creature.\n
-    It migth be flammable" (Map.fromList [("pickable", False)])
+alien_mass = Object "alien_mass" "A strange black mass near the *workshop_window* blocks the path south. It pulsates slightly, as if breathing.\n\
+  \Underneath it you see one of your collegues being slowly absorbed by what you assume to be some kind of alien intruder. \n\
+    \A familiar smell of fuel fumes seems to be eminating from the creature.\n\
+    \It migth be flammable" (Map.fromList [("pickable", False)])
 
 --TODO: add opening with engineering_chief_access_card
 engineering_chief_office_door :: Object
@@ -190,8 +190,8 @@ wooden_table_leg =
  -- TODO: HANDLE destroying
 workshop_window :: Object
 workshop_window = 
-  Object "workshop_window" "You look at the window and into space. You see pieces of debris coming from the ship as well as some strange black round objects you can't identify\n
-   Can be broken with enough force. Last time this happened 2 workers got sucked out into space."
+  Object "workshop_window" "You look at the window and into space. You see pieces of debris coming from the ship as well as some strange black round objects you can't identify\n\
+   \Can be broken with enough force. Last time this happened 2 workers got sucked out into space."
    (Map.fromList [("pickable", False)])
 
 small_fire :: Object
@@ -202,8 +202,8 @@ small_fire =
 
 table :: Object
 table = 
-  Object "table" "An old wooden table. One of its legs seems to be barely holding on. \n
-  You might be able to detach it if you had the proper tool."
+  Object "table" "An old wooden table. One of its legs seems to be barely holding on. \n\
+  \You might be able to detach it if you had the proper tool."
   (Map.fromList [("pickable", False)])
 
 
@@ -211,17 +211,17 @@ escape_pods :: Room
 escape_pods =
   Room {
     roomName = "escape_pods",
-    roomDescription = "This room is designed to hold the emergency evacuation modules for the engineering staff.\n
-    All of them have either already been deployed, or are now covered in an alien, dark grey substance similar to the one that blocked the entrance to this room.\n
-     All except for one. You have to move fast. The pods must first be lowered using the console.\n
-      Then, once inside one of the pods, access to launch has to be granted by entering a code known to the managers of a given branch of the station.",
+    roomDescription = "This room is designed to hold the emergency evacuation modules for the engineering staff.\n\
+    \All of them have either already been deployed, or are now covered in an alien, dark grey substance similar to the one that blocked the entrance to this room.\n\
+     \All except for one. You have to move fast. The pods must first be lowered using the console.\n\
+      \Then, once inside one of the pods, access to launch has to be granted by entering a code known to the managers of a given branch of the station.",
     roomObjects = [broken_console],
     roomExits = Map.fromList [(North, "workshop")]
   }
 
 broken_console :: Object  
 broken_console =
-  Object "broken_console" "A console used for lowering the escape pods, broken. Looks like it short-circuted. \n
-  You spot some black matter between the wires. This must be what caused the break.\n
-   Needs specialised tools to be fixed."
+  Object "broken_console" "A console used for lowering the escape pods, broken. Looks like it short-circuted. \n\
+  \You spot some black matter between the wires. This must be what caused the break.\n\
+   \Needs specialised tools to be fixed."
   (Map.fromList [("pickable", False)])
