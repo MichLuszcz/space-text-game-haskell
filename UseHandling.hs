@@ -49,11 +49,25 @@ set_leg_on_fire :: gameState -> (Maybe GameState, Maybe String)
 set_leg_on_fire gameState =
   let updatedInventory = filter (\obj -> objectName obj /= "wooden_table_leg") $ inventory gameState
       updatedInventory' = makeshift_torch: updatedInventory
-
-      updatedRoom = currentRoom gameState
    in (Just $ gameState {inventory = updatedInventory',
                          allRooms = allRooms gameState,
-                         currentRoom = updatedRoom},
+                         currentRoom = currentRoom gameState},
        Just "You fashion the table leg into a makeshift torch.")
+
+
+
+set_alien_on_fire :: GameState -> (Maybe GameState, Maybe String)
+set_alien_on_fire gameState =
+  let updatedRoom = (currentRoom gameState) {roomObjects = filter (\o -> objectName o /= "alien_mass") 
+                                           (roomObjects $ currentRoom gameState)}
+
+      updatedInventory = filter (\o -> objectName o /= "makeshift_torch")
+                             (inventory gameState)
+      updatedRoom' = addExit South "escape_pods" updatedRoom
+                             
+   in (Just $ gameState {currentRoom = updatedRoom',
+                         inventory = updatedInventory,
+                         allRooms = Map.insert (roomName updatedRoom') updatedRoom' (allRooms gameState)},
+       Just "The alien mass burns away, revealing a path to the escape pods!")
 
 
