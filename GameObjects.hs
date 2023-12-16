@@ -72,6 +72,16 @@ toolbox :: Object
 toolbox = 
   Object "toolbox" "Standard-issue toolbox. It's unlocked" (Map.fromList [("pickable", False), ("openable", True)])
 
+hand_saw :: Object
+hand_saw = 
+  Object "hand_saw" "An old hand saw" (Map.fromList [("pickable", True))
+
+wooden_table_leg :: Object
+wooden_table_leg = 
+  Object "wooden_table_leg" "Table leg, wooden" (Map.fromList [("pickable", True))
+  
+
+
  -- TODO: HANDLE destroying
 workshop_window :: Object
 workshop_window = 
