@@ -15,6 +15,7 @@ useItem itemName targetName gameState =
         -- Make a case of from the itemName and targetName, and the cases should call separate functions like keyUnlockNorthDoor
         case (itemName, targetName) of
           ("key", "North-Door") -> keyUnlockNorthDoor gameState
+          ("hand_saw", "table") -> sawOffTableLeg gameState
           _ -> (Nothing, Just "Item not found")
       Just False -> (Nothing, Just "This item cannot be used.")
     Nothing -> (Nothing, Just "Item not found")
@@ -28,3 +29,15 @@ keyUnlockNorthDoor gameState =
       updatedInventory = filter (\obj -> objectName obj /= "key") (inventory gameState)
    in -- Add updatedRoom to allRooms
       (Just $ gameState {currentRoom = updatedRoom, allRooms = Map.insert (roomName updatedRoom) updatedRoom (allRooms gameState), inventory = updatedInventory}, Just "North-Door unlocked.\n")
+
+
+sawOffTableLeg :: gameState -> (Maybe GameState, Maybe String)
+sawOffTableLeg gameState =
+  -- Find remove table and add wooden table leg to the room
+  let updatedRoom = (currentRoom gameState) {roomObjects = wooden_table_leg: filter (\o -> targetName /= "table") (roomObjects $ currentRoom gameState)}
+      -- Remove the saw from the inventory and add the leg
+      updatedInventory = filter (\obj -> objectName obj /= "hand_saw") (inventory gameState)
+   in -- Add updatedRoom to allRooms
+      (Just $ gameState {currentRoom = updatedRoom, allRooms = Map.insert (roomName updatedRoom) updatedRoom (allRooms gameState), inventory = updatedInventory}, 
+      Just "You manage to sever the loose leg with your saw. 
+      The second the leg comes off the saw breaks.\n A *wooden_table_leg* lies on the floor")
