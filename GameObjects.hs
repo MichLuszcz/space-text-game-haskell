@@ -10,7 +10,21 @@ module GameObjects
     locker,
     deskKey,
     hammer,
-  )
+    workshop,
+    alien_mass,
+    engineering_chief_office_door,
+    hand_saw,
+    electrical_tools,
+    wooden_table_leg,
+    workshop_window,
+    small_fire,
+    escape_pods,
+    table,
+    broken_console,
+    computer,
+    metal_statue,
+    escape_pod_launch_console
+  ) 
 where
 
 import Data.List
@@ -151,14 +165,12 @@ workshop =
 
 
 
--- TODO: add destroy handling
 alien_mass :: Object
 alien_mass = Object "alien_mass" "A strange black mass near the *workshop_window* blocks the path south. It pulsates slightly, as if breathing.\n\
   \Underneath it you see one of your collegues being slowly absorbed by what you assume to be some kind of alien intruder. \n\
     \A familiar smell of fuel fumes seems to be eminating from the creature.\n\
     \It migth be flammable" (Map.fromList [("pickable", False)])
 
---TODO: add opening with engineering_chief_access_card
 engineering_chief_office_door :: Object
 engineering_chief_office_door = 
   Object "engineering_chief_office_door" 
@@ -207,6 +219,24 @@ table =
   (Map.fromList [("pickable", False)])
 
 
+engineering_chief_office :: Room
+engineering_chief_office =
+  Room {
+    roomName = "engineering_chief_office",
+    roomDescription = "The office is in heavy dissaray. An open computer sits on the desk. Next to one of the bookshelves lays a broken glass table. Something heavy must've fallen on it from one of the shelves.", 
+    roomObjects = [computer, metal_statue],
+    roomExits = Map.empty
+  }
+
+computer :: Object
+computer = Object "computer" "You open the computer sitting on the desk. You find an open email titled ESCAPE POD CODE UPDATE: \n\
+\ Hi, Qaux'ods, please remember about the annual escape pod tests. We've changed all the codes to *1867* for this week to make the process easier. \n\
+\ Please have the report done by next week. Cheers." (Map.fromList [("pickable", False)])
+
+metal_statue :: Object  
+metal_statue = Object "metal_statue" "A heavy metal statue seems to have fallen down from one of the shelves and broken through a glass table. \n\
+\It's just small enough for you to pick up and seems to be some kind of award given to the engineering chief." (Map.fromList [("pickable", True), ("usable", True)])
+
 escape_pods :: Room  
 escape_pods =
   Room {
@@ -225,3 +255,12 @@ broken_console =
   \You spot some black matter between the wires. This must be what caused the break.\n\
    \Needs specialised tools to be fixed."
   (Map.fromList [("pickable", False)])
+
+
+escape_pod_launch_console :: Object
+escape_pod_launch_console = 
+  Object "escape_pod_launch_console" "Inside the pod is a big screen with a prompt that reads: \n\
+  \PLEASE ENTER LAUNCH AUTHORISATION CODE TO INITIATE LAUNCH SEQUENCE"
+  (Map.fromList [("pickable", False)])
+
+
