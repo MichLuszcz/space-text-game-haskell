@@ -15,7 +15,6 @@ useItem itemName targetName gameState =
       Just True ->
         -- Make a case of from the itemName and targetName, and the cases should call separate functions like keyUnlockNorthDoor
         case (itemName, targetName) of
-          ("key", "North-Door") -> keyUnlockNorthDoor gameState
           ("hand_saw", "table") -> sawOffTableLeg gameState
           ("Desk_Key", "Desk") -> keyUnlock itemName targetName gameState
           ("Crew_Access_Card", "Security_Door") -> keyUnlock itemName targetName gameState
@@ -44,3 +43,17 @@ sawOffTableLeg gameState =
       (Just $ gameState {currentRoom = updatedRoom, allRooms = Map.insert (roomName updatedRoom) updatedRoom (allRooms gameState), inventory = updatedInventory}, 
       Just "You manage to sever the loose leg with your saw. 
       The second the leg comes off the saw breaks.\n A *wooden_table_leg* lies on the floor")
+
+
+set_leg_on_fire :: gameState -> (Maybe GameState, Maybe String)
+set_leg_on_fire gameState =
+  let updatedInventory = filter (\obj -> objectName obj /= "wooden_table_leg") $ inventory gameState
+      updatedInventory' = makeshift_torch: updatedInventory
+
+      updatedRoom = currentRoom gameState
+   in (Just $ gameState {inventory = updatedInventory',
+                         allRooms = allRooms gameState,
+                         currentRoom = updatedRoom},
+       Just "You fashion the table leg into a makeshift torch.")
+
+
