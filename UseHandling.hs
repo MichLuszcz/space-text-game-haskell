@@ -22,6 +22,7 @@ useItem itemName targetName gameState =
           ("wooden_table_leg", "small_fire") -> set_leg_on_fire gameState
           ("makeshift_torch", "alien_mass") -> set_alien_on_fire gameState
           ("engineering_chief_access_card", "engineering_chief_office_door") -> keyUnlock itemName targetName gameState
+          ("electrical_tools", "broken_console") -> fixConsole gameState
           _ -> (Nothing, Just "Item not found")
       Just False -> (Nothing, Just "This item cannot be used.")
       _ -> (Nothing, Just "This item cannot be used.")
@@ -74,3 +75,15 @@ set_alien_on_fire gameState =
        Just "The alien mass burns away, revealing a path to the escape pods!")
 
 
+fixConsole :: GameState -> (Maybe GameState, Maybe String)
+fixConsole gameState =
+  let updatedRoom = currentRoom gameState {
+           roomObjects = filter (\o -> objectName o /= "broken_console") $
+                            roomObjects $ currentRoom gameState ++ 
+                            [escape_pod_launch_console]  
+       }
+      updatedInventory = filter (\o -> objectName o /= "electrical_tools") $
+                           inventory gameState
+   in (Just $ gameState {currentRoom = updatedRoom,  
+                         inventory = updatedInventory},
+       Just "You manage to fix the console and use it to lower down the remaining escape pod. You can now access the escape_pod_launch_console inside the pod and get out of here.")
