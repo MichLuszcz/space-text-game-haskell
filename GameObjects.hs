@@ -38,3 +38,28 @@ initialState =
       inventory = [],
       allRooms = Map.fromList [("Dark Room", initialRoom), ("Next Room", nextRoom)]
     }
+
+
+workshop :: Room
+workshop =
+    Room
+    { roomName = "workshop",
+      roomDescription = "The workshop is where most engineering on the station happens.",
+      roomObjects =
+        [alien_mass],
+      roomExits = Map.fromList [(South, initialRoom)]
+    }
+
+
+alien_mass :: Object
+alien_mass = Object "alien_mass" "A strange black mass near the *workshop_window* blocks the path south. It pulsates slightly, as if breathing.\n
+  Underneath it you see one of your collegues being slowly absorbed by what you assume to be some kind of alien intruder. \n
+    A familiar smell of fuel fumes seems to be eminating from the creature.\n
+    It migth be flammable" (Map.fromList [("pickable", False)])
+
+
+
+
+
+
+
