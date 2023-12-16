@@ -32,7 +32,7 @@ printInstructions = do
 listInventory :: GameState -> String
 listInventory gameState =
   if null inventoryList
-    then "Your inventory is empty."
-    else "Inventory:\n" ++ intercalate "\n" (map (\obj -> "  - " ++ objectName obj) inventoryList)
+    then "Your inventory is empty. \n"
+    else "Inventory:\n" ++ intercalate "\n" (map (\obj -> "  - " ++ objectName obj) inventoryList) ++ "\n"
   where
     inventoryList = inventory gameState

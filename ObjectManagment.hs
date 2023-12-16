@@ -6,7 +6,7 @@ import DataTypes
 
 -- Function to describe an object
 describeObject :: Object -> String
-describeObject (Object name desc _) = "It's a " ++ name ++ ". \n" ++ desc
+describeObject (Object name desc _) = "\n" ++ "It's a " ++ name ++ ". \n" ++ desc ++ "\n"
 
 -- Function to find an object by name in a list
 findObject :: String -> [Object] -> Maybe Object

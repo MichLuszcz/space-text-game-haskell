@@ -20,7 +20,9 @@ handleMove :: Direction -> GameState -> IO ()
 handleMove direction gameState = case move direction gameState of
   Just newState -> gameLoop newState
   Nothing -> do
+    printEmptyLine
     putStrLn "You can't go that way."
+    printEmptyLine
     gameLoop gameState
 
 handlePick :: String -> GameState -> IO ()
@@ -62,27 +64,34 @@ handleInspect itemName gameState = case inspect itemName gameState of
     putStrLn result
     gameLoop gameState
   Nothing -> do
+    printEmptyLine
     putStrLn $ "There is no " ++ itemName ++ " here."
+    printEmptyLine
     gameLoop gameState
 
 handleLook :: GameState -> IO ()
 handleLook gameState = do
+  printEmptyLine
   putStrLn "You look around and see:"
   mapM_ (\obj -> putStrLn $ "  - " ++ objectName obj) (roomObjects $ currentRoom gameState)
+  printEmptyLine
   gameLoop gameState
 
 invalidInput :: GameState -> IO ()
 invalidInput gameState = do
+  printEmptyLine
   putStrLn "Invalid command. Try again."
+  printEmptyLine
   gameLoop gameState
 
 gameLoop :: GameState -> IO ()
 gameLoop gameState = do
+  printSeparator
   putStrLn $ roomDescription (currentRoom gameState)
-  putStrLn "What do you want to do?"
+  printSeparator
+  putStr "What do you want to do? \n > "
 
   command <- getLine
-  printEmptyLine
 
   case words command of
     ["quit"] -> return ()

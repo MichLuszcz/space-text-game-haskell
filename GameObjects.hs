@@ -9,7 +9,7 @@ initialRoom :: Room
 initialRoom =
   Room
     { roomName = "Dark Room",
-      roomDescription = "You find yourself in a dark room.\n",
+      roomDescription = "You find yourself in a dark room.",
       roomObjects =
         [ Object "key" "A shiny golden key." (Map.fromList [("pickable", True), ("usable", True)]),
           Object "table" "A wooden table." (Map.fromList [("pickable", False)]),
@@ -25,7 +25,7 @@ nextRoom :: Room
 nextRoom =
   Room
     { roomName = "Next Room",
-      roomDescription = "You enter a mysterious room.\n",
+      roomDescription = "A mysterious room.",
       roomObjects =
         [Object "book" "An old dusty tome." (Map.fromList [("pickable", True)])],
       roomExits = Map.fromList [(South, initialRoom)]

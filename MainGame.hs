@@ -20,6 +20,7 @@ import UtilityFunctions
 -- Main function to start the game
 main :: IO ()
 main = do
+  printSeparator
   putStrLn "Welcome to Haskell Adventure."
   printSeparator
   printInstructions
