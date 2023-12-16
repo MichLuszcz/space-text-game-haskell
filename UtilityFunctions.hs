@@ -1,6 +1,7 @@
 module UtilityFunctions where
 
 import Data.List
+import Data.Map (elems, toList)
 import DataTypes
 
 -- Print empty line
@@ -36,3 +37,7 @@ listInventory gameState =
     else "Inventory:\n" ++ intercalate "\n" (map (\obj -> "  - " ++ objectName obj) inventoryList) ++ "\n"
   where
     inventoryList = inventory gameState
+
+-- List all Room names from GameState (allRooms)
+listRooms :: GameState -> String
+listRooms gameState = intercalate "\n" (map roomName (elems (allRooms gameState)))

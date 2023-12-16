@@ -115,4 +115,7 @@ gameLoop gameState = do
     ["check", "exits"] -> do
       checkExits gameState
       gameLoop gameState
+    ["list", "rooms"] -> do
+      putStrLn $ listRooms gameState
+      gameLoop gameState
     _ -> invalidInput gameState

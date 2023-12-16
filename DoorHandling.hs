@@ -14,13 +14,13 @@ openDoor doorToOpen gameState =
         case doorToOpen of
           "North-Door" -> openNorthDoor gameState
           _ -> (Nothing, Just "Door not found")
-      Just False -> (Nothing, Just "This door cannot be opened.")
-    Nothing -> (Nothing, Just "Door not found.")
+      Just False -> (Nothing, Just "\n This door cannot be opened.")
+    Nothing -> (Nothing, Just "\n Door not found.")
 
 openNorthDoor :: GameState -> (Maybe GameState, Maybe String)
 openNorthDoor gameState =
-  let updatedInitialRoom = addExit North (findRoom "Next Room" rooms) (findRoom "Dark Room" rooms)
-      updatedNextRoom = addExit South (findRoom "Dark Room" rooms) (findRoom "Next Room" rooms)
-   in (Just $ gameState {allRooms = Map.fromList [(roomName updatedInitialRoom, updatedInitialRoom), (roomName updatedNextRoom, updatedNextRoom)], currentRoom = updatedInitialRoom}, Just "North Door opened.\n")
+  let updatedInitialRoom = addExit North "Next Room" (findRoom "Dark Room" rooms)
+      updatedNextRoom = addExit South "Dark Room" (findRoom "Next Room" rooms)
+   in (Just $ gameState {allRooms = Map.fromList [(roomName updatedInitialRoom, updatedInitialRoom), (roomName updatedNextRoom, updatedNextRoom)], currentRoom = updatedInitialRoom}, Just "\nNorth Door opened.\n")
   where
     rooms = Map.elems (allRooms gameState)

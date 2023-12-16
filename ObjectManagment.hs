@@ -19,6 +19,6 @@ findRoom targetName rooms = case find (\room -> targetName == roomName room) roo
   Nothing -> error $ "Room not found: " ++ targetName
 
 -- Function to add an exit to a room
-addExit :: Direction -> Room -> Room -> Room
-addExit direction toRoom fromRoom =
-  fromRoom {roomExits = Map.insert direction toRoom (roomExits fromRoom)}
+addExit :: Direction -> String -> Room -> Room
+addExit direction toRoomName fromRoom =
+  fromRoom {roomExits = Map.insert direction toRoomName (roomExits fromRoom)}
