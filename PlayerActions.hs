@@ -10,8 +10,9 @@ import UtilityFunctions
 -- Function to move the player to a new room
 move :: Direction -> GameState -> Maybe GameState
 move direction gameState = do
-  nextRoom <- Map.lookup direction (roomExits $ currentRoom gameState)
-  return $ gameState {currentRoom = nextRoom}
+  nextRoomName <- Map.lookup direction (roomExits $ currentRoom gameState)
+  case findRoom nextRoomName (Map.elems $ allRooms gameState) of
+    nextRoom -> return $ gameState {currentRoom = nextRoom}
 
 -- Function to pick up an object in the current room
 pickUp :: String -> GameState -> (Maybe GameState, Maybe String)
@@ -21,7 +22,9 @@ pickUp targetName gameState =
       Just True ->
         let newInventory = obj : inventory gameState
             newRoomObjects = filter (\o -> targetName /= objectName o) (roomObjects $ currentRoom gameState)
-         in (Just $ gameState {inventory = newInventory, currentRoom = (currentRoom gameState) {roomObjects = newRoomObjects}}, Just "\n Pickup successful \n")
+            updatedRoom = (currentRoom gameState) {roomObjects = newRoomObjects}
+            currentRoomObj = currentRoom gameState
+         in (Just $ gameState {inventory = newInventory, currentRoom = updatedRoom, allRooms = Map.insert (roomName currentRoomObj) updatedRoom (allRooms gameState)}, Just "\n Pickup successful \n")
       _ -> (Nothing, Just "\n Object not pickable\n ")
     Nothing -> (Nothing, Just "\n Object not found \n")
 
@@ -36,5 +39,5 @@ checkExits :: GameState -> IO ()
 checkExits gameState = do
   let exits = roomExits (currentRoom gameState)
   putStrLn "\n Available directions:"
-  mapM_ (\(dir, room) -> putStrLn $ show dir ++ " -> " ++ roomName room) (Map.toList exits)
+  mapM_ (\(dir, room) -> putStrLn $ show dir ++ " -> " ++ room) (Map.toList exits)
   printEmptyLine

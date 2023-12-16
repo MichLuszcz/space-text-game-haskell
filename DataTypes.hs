@@ -19,7 +19,7 @@ data Room = Room
   { roomName :: String,
     roomDescription :: String,
     roomObjects :: [Object],
-    roomExits :: Map.Map Direction Room
+    roomExits :: Map.Map Direction String
   }
   deriving (Show)
 

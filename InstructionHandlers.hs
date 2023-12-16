@@ -9,16 +9,21 @@ module InstructionHandlers
   )
 where
 
+import Data.Map.Strict qualified as Map
 import DataTypes
 import DoorHandling
 import GameObjects
+import ObjectManagment
+import OpenHandling
 import PlayerActions
 import UseHandling
 import UtilityFunctions
 
 handleMove :: Direction -> GameState -> IO ()
 handleMove direction gameState = case move direction gameState of
-  Just newState -> gameLoop newState
+  Just newState -> do
+    putStrLn $ roomDescription (currentRoom newState)
+    gameLoop newState
   Nothing -> do
     printEmptyLine
     putStrLn "You can't go that way."
@@ -37,15 +42,38 @@ handlePick itemName gameState = do
     Nothing -> return ()
 
 handleOpen :: String -> GameState -> IO ()
-handleOpen itemName gameState = do
-  let (newState, resultMsg) = openDoor itemName gameState
-  case resultMsg of
-    Just msg -> do
-      putStrLn msg
-      case newState of
-        Just state -> gameLoop state
-        Nothing -> gameLoop gameState
-    Nothing -> return ()
+-- Case of if itemName has the flag door set to true, then call openDoor, otherwise call open
+handleOpen itemName gameState = case findObject itemName (roomObjects $ currentRoom gameState) of
+  Just obj -> case Map.lookup "door" (objectValues obj) of
+    Just True -> do
+      let (newState, resultMsg) = openDoor itemName gameState
+      case resultMsg of
+        Just msg -> do
+          putStrLn msg
+          case newState of
+            Just state -> gameLoop state
+            Nothing -> gameLoop gameState
+        Nothing -> return ()
+    Just False -> do
+      let (newState, resultMsg) = openObject itemName gameState
+      case resultMsg of
+        Just msg -> do
+          putStrLn msg
+          case newState of
+            Just state -> gameLoop state
+            Nothing -> gameLoop gameState
+    Nothing -> invalidInput gameState
+  Nothing -> invalidInput gameState
+
+-- handleOpen itemName gameState = case
+--   let (newState, resultMsg) = openDoor itemName gameState
+--   case resultMsg of
+--     Just msg -> do
+--       putStrLn msg
+--       case newState of
+--         Just state -> gameLoop state
+--         Nothing -> gameLoop gameState
+--     Nothing -> return ()
 
 handleUse :: String -> String -> GameState -> IO ()
 handleUse itemName targetName gameState = do
@@ -72,6 +100,7 @@ handleInspect itemName gameState = case inspect itemName gameState of
 handleLook :: GameState -> IO ()
 handleLook gameState = do
   printEmptyLine
+  putStrLn $ roomDescription (currentRoom gameState)
   putStrLn "You look around and see:"
   mapM_ (\obj -> putStrLn $ "  - " ++ objectName obj) (roomObjects $ currentRoom gameState)
   printEmptyLine
@@ -87,7 +116,7 @@ invalidInput gameState = do
 gameLoop :: GameState -> IO ()
 gameLoop gameState = do
   printSeparator
-  putStrLn $ roomDescription (currentRoom gameState)
+  -- putStrLn $ roomDescription (currentRoom gameState)
   printSeparator
   putStr "What do you want to do? \n > "
 
@@ -114,5 +143,8 @@ gameLoop gameState = do
       gameLoop gameState
     ["check", "exits"] -> do
       checkExits gameState
+      gameLoop gameState
+    ["list", "rooms"] -> do
+      putStrLn $ listRooms gameState
       gameLoop gameState
     _ -> invalidInput gameState
