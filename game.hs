@@ -96,7 +96,7 @@ gameLoop player currentRoom = do
 
 -- Function to find an item by its ID in a list of items
 findItemById :: Int -> [Item] -> Maybe Item
-findItemById targetId items = find (\item -> itemId item == targetId) items
+findItemById targetId = find (\item -> itemId item == targetId)
 
 -- Define two rooms and some items
 room1 :: Room
