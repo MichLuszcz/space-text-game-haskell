@@ -31,7 +31,7 @@ openSecurityDoor gameState =
 open_engineering_chief_office_door :: GameState -> (Maybe GameState, Maybe String)  
 open_engineering_chief_office_door gameState =
   let
-      updatedWorkshop = addExit North "engineering_chief_office_door" (findRoom "workshop" rooms)
+      updatedWorkshop = addExit North "engineering_chief_office" (findRoom "workshop" rooms)
       updatedAllRooms = Map.insert (roomName updatedWorkshop) updatedWorkshop (allRooms gameState)
    in (Just $ gameState {allRooms = updatedAllRooms, currentRoom = updatedWorkshop},
        Just "Engineering Chief's office door opened.")
