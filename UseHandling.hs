@@ -17,7 +17,7 @@ useItem itemName targetName gameState =
         case (itemName, targetName) of
           ("Desk_Key", "Desk") -> keyUnlock itemName targetName gameState
           ("Crew_Access_Card", "Security_Door") -> keyUnlock itemName targetName gameState
-          _ -> (Nothing, Just "Item not found")
+          _ -> (Nothing, Just ("You can't figure out how to use " ++ itemName ++ " on " ++ targetName ++ ".\n"))
       Just False -> (Nothing, Just "This item cannot be used.")
       _ -> (Nothing, Just "This item cannot be used.")
     Nothing -> (Nothing, Just "Item not found")
