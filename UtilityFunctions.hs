@@ -1,5 +1,6 @@
 module UtilityFunctions where
 
+import Control.Monad.RWS.Lazy (MonadState (put))
 import Data.List
 import Data.Map (elems, toList)
 import DataTypes
@@ -20,13 +21,15 @@ printInstructions :: IO ()
 printInstructions = do
   putStrLn "Available commands are:"
   putStrLn ""
-  putStrLn "move <direction> -- to move to a different room."
-  putStrLn "pick <item>      -- to pick up an item in the current room."
-  putStrLn "inspect <item>   -- to inspect an item in the current room."
-  putStrLn "look             -- to look around the current room."
-  putStrLn "check inventory  -- to check your inventory."
-  putStrLn "quit             -- to end the game and quit."
-  putStrLn "instructions     -- to see these instructions."
+  putStrLn "move <direction>       -- to move to a different room."
+  putStrLn "pick <item>            -- to pick up an item in the current room."
+  putStrLn "open <item>            -- to open an item or a door in the current room."
+  putStrLn "use <item> on <item>   -- to use an item on another item in the current room."
+  putStrLn "inspect <item>         -- to inspect an item in the current room."
+  putStrLn "look                   -- to look around the current room."
+  putStrLn "check inventory        -- to check your inventory."
+  putStrLn "quit                   -- to end the game and quit."
+  putStrLn "instructions           -- to see these instructions."
   putStrLn ""
 
 -- Function to list names of items in the player's inventory

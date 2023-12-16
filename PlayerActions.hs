@@ -22,7 +22,7 @@ pickUp targetName gameState =
       Just True ->
         let newInventory = obj : inventory gameState
             newRoomObjects = filter (\o -> targetName /= objectName o) (roomObjects $ currentRoom gameState)
-            updatedRoom = (currentRoom gameState) {roomObjects = newRoomObjects, roomName = "Dark Room"}
+            updatedRoom = (currentRoom gameState) {roomObjects = newRoomObjects}
             currentRoomObj = currentRoom gameState
          in (Just $ gameState {inventory = newInventory, currentRoom = updatedRoom, allRooms = Map.insert (roomName currentRoomObj) updatedRoom (allRooms gameState)}, Just "\n Pickup successful \n")
       _ -> (Nothing, Just "\n Object not pickable\n ")

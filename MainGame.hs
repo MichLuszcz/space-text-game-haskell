@@ -6,7 +6,9 @@ import Control.Monad (guard)
 import Control.Monad.RWS.Class (MonadState (put))
 import Data.List
 import Data.Map.Strict qualified as Map
+--
 -- Module imports
+--
 import DataTypes
 import DoorHandling
 import GameObjects
