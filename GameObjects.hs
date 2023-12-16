@@ -143,7 +143,8 @@ workshop =
       roomDescription = "The workshop is where most engineering on the station happens.",
       roomObjects =
         [alien_mass, engineering_chief_office_door, toolbox, workshop_window, small_fire, table],
-      roomExits = Map.fromList [(South, initialRoom)]
+      --roomExits = Map.fromList [(West, engine_room)]
+      roomExits = Map.empty
     }
 
 
@@ -163,18 +164,24 @@ engineering_chief_office_door =
   (Map.fromList [("pickable", False), ("openable", False)])
 
 
--- TODO: Add open handling for toolbox
 toolbox :: Object
 toolbox = 
   Object "toolbox" "Standard-issue toolbox. It's unlocked" (Map.fromList [("pickable", False), ("openable", True)])
 
 hand_saw :: Object
 hand_saw = 
-  Object "hand_saw" "An old hand saw" (Map.fromList [("pickable", True))
+  Object "hand_saw" "An old hand saw" (Map.fromList [("pickable", True), ("usable", True))
+
+electrical_tools :: Object
+electrical_tools =
+  Object "electrical_tools" "Various tools for electrical work such as wire cutters, soldering iron etc."
+  (Map.fromList [("pickable", True), ("usable", True)])
+
+
 
 wooden_table_leg :: Object
 wooden_table_leg = 
-  Object "wooden_table_leg" "Table leg, wooden" (Map.fromList [("pickable", True))
+  Object "wooden_table_leg" "Table leg, wooden" (Map.fromList [("pickable", True), ("usable", True))
   
 
 
@@ -185,17 +192,34 @@ workshop_window =
    Can be broken with enough force. Last time this happened 2 workers got sucked out into space."
    (Map.fromList [("pickable", False)])
 
--- TODO handle lighting on fire
 small_fire :: Object
 small_fire = 
   Object "small_fire" "A small electical fire seems to have broken out in the corner of the room"
   (Map.fromList [("pickable", False)])
 
 
--- TODO handle breaking table
 table :: Object
 table = 
   Object "table" "An old wooden table. One of its legs seems to be barely holding on. \n
   You might be able to detach it if you had the proper tool."
   (Map.fromList [("pickable", False)])
 
+
+escape_pods :: Room  
+escape_pods =
+  Room {
+    roomName = "escape_pods",
+    roomDescription = "This room is designed to hold the emergency evacuation modules for the engineering staff.\n
+    All of them have either already been deployed, or are now covered in an alien, dark grey substance similar to the one that blocked the entrance to this room.\n
+     All except for one. You have to move fast. The pods must first be lowered using the console.\n
+      Then, once inside one of the pods, access to launch has to be granted by entering a code known to the managers of a given branch of the station.",
+    roomObjects = [broken_console],
+    roomExits = Map.fromList [(North, "workshop")]
+  }
+
+broken_console :: Object  
+broken_console =
+  Object "broken_console" "A console used for lowering the escape pods, broken. Looks like it short-circuted. \n
+  You spot some black matter between the wires. This must be what caused the break.\n
+   Needs specialised tools to be fixed."
+  (Map.fromList [("pickable", False)])
