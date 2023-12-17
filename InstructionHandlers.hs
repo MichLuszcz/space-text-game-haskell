@@ -12,10 +12,13 @@ where
 import qualified Data.Map.Strict as Map
 import DataTypes
 import DoorHandling
+import GHC.IO.Exception (ExitCode (ExitSuccess))
 import GameObjects
 import ObjectManagment
 import OpenHandling
 import PlayerActions
+import System.Directory.Internal.Prelude (exitFailure)
+import System.Exit (exitSuccess)
 import UseHandling
 import UtilityFunctions
 
@@ -50,10 +53,16 @@ handleOpen itemName gameState = case findObject itemName (roomObjects $ currentR
       let (newState, resultMsg) = openDoor itemName gameState
       case resultMsg of
         Just msg -> do
-          putStrLn msg
-          case newState of
-            Just state -> gameLoop state
-            Nothing -> gameLoop gameState
+          case msg of
+            "You died!" -> do
+              putStrLn msg
+              exitSuccess
+              return ()
+            _ -> do
+              putStrLn msg
+              case newState of
+                Just state -> gameLoop state
+                Nothing -> gameLoop gameState
         Nothing -> return ()
     Just False -> do
       let (newState, resultMsg) = openObject itemName gameState
@@ -118,6 +127,32 @@ handleConnect cab1 cab2 cab3 gameState = do
         Nothing -> gameLoop gameState
     Nothing -> return ()
 
+handleCraftSuit :: GameState -> IO ()
+handleCraftSuit gameState = do
+  let (newState, resultMsg) = craftSuit gameState
+  case resultMsg of
+    Just msg -> do
+      putStrLn msg
+      case newState of
+        Just state -> gameLoop state
+        Nothing -> gameLoop gameState
+    Nothing -> return ()
+
+craftSuit :: GameState -> (Maybe GameState, Maybe String)
+craftSuit gameState =
+  if "Space_Suit_Trousers" `elem` map objectName (inventory gameState) && "Space_Suit_Jacket" `elem` map objectName (inventory gameState) && "Space_Suit_Helmet" `elem` map objectName (inventory gameState)
+    then
+      let newInvWithoutParts = filter (\o -> objectName o /= "Space_Suit_Trousers" && objectName o /= "Space_Suit_Jacket" && objectName o /= "Space_Suit_Helmet") (inventory gameState) ++ [spaceSuit]
+       in ( Just $
+              gameState
+                { inventory = newInvWithoutParts,
+                  currentRoom = currentRoom gameState,
+                  allRooms = allRooms gameState
+                },
+            Just "\nYou crafted a space suit.\n"
+          )
+    else (Nothing, Just "\nYou don't have all those items.\n")
+
 invalidInput :: GameState -> IO ()
 invalidInput gameState = do
   printEmptyLine
@@ -136,6 +171,7 @@ gameLoop gameState = do
 
   case words command of
     ["quit"] -> return ()
+    ["craft", "Space_Suit_Trousers", "Space_Suit_Jacket", "Space_Suit_Helmet"] -> handleCraftSuit gameState
     ["instructions"] -> do
       printInstructions
       gameLoop gameState

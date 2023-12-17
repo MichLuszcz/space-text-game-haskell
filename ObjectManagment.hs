@@ -1,7 +1,7 @@
 module ObjectManagment where
 
 import Data.List
-import qualified Data.Map.Strict  as Map
+import qualified Data.Map.Strict as Map
 import DataTypes
 
 -- Function to describe an object

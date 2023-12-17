@@ -39,6 +39,11 @@ module GameObjects
     lockedSafetyBox,
     cyberKey,
     engineRoom,
+    spaceSuitHelmet,
+    spaceSuitTrousers,
+    spaceSuitJacket,
+    spaceSuit,
+    bridgeGap,
   )
 where
 
@@ -47,11 +52,19 @@ import qualified Data.Map.Strict as Map
 import DataTypes
 
 -- Initial GameState
+-- craft Space_Suit_Trousers Space_Suit_Jacket Space_Suit_Helmet
 initialState :: GameState
 initialState =
   GameState
     { currentRoom = crewBedroom,
-      inventory = [],
+      inventory =
+        [ accessCard,
+          thickBlanket,
+          cyberKey,
+          spaceSuitHelmet,
+          spaceSuitTrousers,
+          spaceSuitJacket
+        ],
       allRooms =
         Map.fromList
           [ ("Crew Bedroom", crewBedroom),
@@ -61,9 +74,27 @@ initialState =
             ("workshop", workshop),
             ("engineering_chief_office", engineering_chief_office),
             ("Cantine", cantine),
-            ("Engine Room", engineRoom)
+            ("Engine Room", engineRoom),
+            ("Engine Room Vent", engineRoomVent),
+            ("Vent Dead End", ventDeadEndRoom),
+            ("Vent Exit", ventExitRoom),
+            ("Service Room", serviceRoom),
+            ("The Void", theVoid)
           ]
     }
+
+-- use Crew_Access_Card on Security_Door
+-- open Security_Door
+-- move S
+-- use Thick_Blanket on Electric_Box
+-- open South_Corridor_Exit_Door
+-- move S
+-- use Cyber_Key on Control_Panel
+-- move W
+-- move S
+-- move S
+-- pick UV_Flashlight
+-- use 9911 on Locked_Crate
 
 -- Crew Bedroom
 crewBedroom :: Room
@@ -145,7 +176,8 @@ crewBedroomVent =
     { roomName = "Crew Bedroom Vent",
       roomDescription = "You crawl into a rather spatious crew bedroom vent. There it is! This is where you Desk_Key went! Good thing it didn't fall deeper or you would be stuck in here for ever.",
       roomObjects =
-        [ deskKey
+        [ deskKey,
+          voidEntranceDoor
         ],
       roomExits = Map.fromList [(West, "Crew Bedroom")]
     }
@@ -330,7 +362,7 @@ southCorridorExitDoor =
   Object
     { objectName = "South_Corridor_Exit_Door",
       objectDescription = "This exit leads out of the living space to the other sections of the ship. \nIf you want to go through it, you need to unlock it somehow.",
-      objectValues = Map.fromList [("pickable", False), ("openable", False), ("door", True)]
+      objectValues = Map.fromList [("pickable", False), ("openable", True), ("door", True)]
     }
 
 engineeringChiefAccessCard :: Object
@@ -391,8 +423,161 @@ engineRoom :: Room
 engineRoom =
   Room
     { roomName = "Engine Room",
-      roomDescription = "You enter the engine room.\n",
+      roomDescription = "Damn, ship must have taken a really heavy blow, these engines look like they will explode in any second now.\nSecurity protocol must have kicked in, because the bridge to the (plot_element_ID1) is lifted to the ceeling, you need to find some way to lower it down.\nMaybe this *Control_Panel* might help.",
+      roomObjects =
+        [controlPanel],
+      roomExits = Map.fromList [(North, "Main Corridor")]
+    }
+
+controlPanel :: Object
+controlPanel =
+  Object
+    { objectName = "Control_Panel",
+      objectDescription = "The control panel is locked. You need to find a way to open it.",
+      objectValues = Map.fromList [("pickable", False), ("openable", False), ("door", False)]
+    }
+
+bridgeGap :: Object
+bridgeGap =
+  Object
+    { objectName = "Bridge_Gap",
+      objectDescription = "The bridge felt and now there is a big gap seperating you from the rest of the ship.",
+      objectValues = Map.fromList [("pickable", False), ("openable", False), ("door", False)]
+    }
+
+-- Engine Room Vent
+engineRoomVent :: Room
+engineRoomVent =
+  Room
+    { roomName = "Engine Room Vent",
+      roomDescription = "I can *exit_vent*, or go only in two directions from here, weast and east.",
       roomObjects =
         [],
-      roomExits = Map.fromList [(North, "Main Corridorz")]
+      roomExits =
+        Map.fromList
+          [ (East, "Engine Room"),
+            (North, "Vent Dead End"),
+            (South, "Vent Exit")
+          ]
+    }
+
+ventDeadEndRoom :: Room
+ventDeadEndRoom =
+  Room
+    { roomName = "Vent Dead End",
+      roomDescription = "Vent gets too narrow in here, I should probably try the other way.",
+      roomObjects =
+        [],
+      roomExits =
+        Map.fromList
+          [(South, "Engine Room Vent")]
+    }
+
+ventExitRoom :: Room
+ventExitRoom =
+  Room
+    { roomName = "Vent Exit",
+      roomDescription = "You crawled to the *vent_cover*, check whats behind it.",
+      roomObjects =
+        [],
+      roomExits =
+        Map.fromList
+          [ (North, "Engine Room Vent"),
+            (South, "Service Room")
+          ]
+    }
+
+-- Service Room
+serviceRoom :: Room
+serviceRoom =
+  Room
+    { roomName = "Service Room",
+      roomDescription = "You are in the service room, It was used by ships technicians.",
+      roomObjects =
+        [schematic, uvFlashlight, lockedCrate],
+      roomExits =
+        Map.fromList
+          [(North, "Vent Exit")]
+    }
+
+schematic :: Object
+schematic =
+  Object
+    { objectName = "schematic",
+      objectDescription = "Space suit assebly guide:\nRequired parts: *space_suit_trousers*, *space_suit_jacket*, *space_suit_gloves*, *space_suit_helmet*.",
+      objectValues = Map.fromList [("pickable", False), ("openable", False), ("door", False)]
+    }
+
+uvFlashlight :: Object
+uvFlashlight =
+  Object
+    { objectName = "UV_Flashlight",
+      objectDescription = "A flashlight that emits UV light. It can be used to find hidden objects.",
+      objectValues = Map.fromList [("pickable", True), ("usable", True)]
+    }
+
+lockedCrate :: Object
+lockedCrate =
+  Object
+    { objectName = "Locked_Crate",
+      objectDescription = "It has an electronic lock on, that required 4 digits. You can try to guess it, but without some info it will can be a tedious task. `type_code *your code*`",
+      objectValues = Map.fromList [("pickable", False), ("openable", False), ("door", False)]
+    }
+
+spaceSuitTrousers :: Object
+spaceSuitTrousers =
+  Object
+    { objectName = "Space_Suit_Trousers",
+      objectDescription = "Space suit trousers.",
+      objectValues = Map.fromList [("pickable", True), ("usable", True)]
+    }
+
+spaceSuitHelmet :: Object
+spaceSuitHelmet =
+  Object
+    { objectName = "Space_Suit_Helmet",
+      objectDescription = "Space suit helmet.",
+      objectValues = Map.fromList [("pickable", True), ("usable", True)]
+    }
+
+spaceSuitJacket :: Object
+spaceSuitJacket =
+  Object
+    { objectName = "Space_Suit_Jacket",
+      objectDescription = "Space suit jacket.",
+      objectValues = Map.fromList [("pickable", True), ("usable", True)]
+    }
+
+spaceSuit :: Object
+spaceSuit =
+  Object
+    { objectName = "Space_Suit",
+      objectDescription = "Space suit.",
+      objectValues = Map.fromList [("pickable", True), ("usable", True)]
+    }
+
+-- The void
+theVoid :: Room
+theVoid =
+  Room
+    { roomName = "The Void",
+      roomDescription = "This spacesuit proved to be usufull. Try to look for something usefull outside the ship.",
+      roomObjects = [ladder],
+      roomExits = Map.fromList [(West, "Crew Bedroom Vent")]
+    }
+
+voidEntranceDoor :: Object
+voidEntranceDoor =
+  Object
+    { objectName = "Void_Entrance",
+      objectDescription = "This door leads to the void. It is not locked with any lock.",
+      objectValues = Map.fromList [("pickable", False), ("openable", True), ("door", True)]
+    }
+
+ladder :: Object
+ladder =
+  Object
+    { objectName = "Ladder",
+      objectDescription = "A ladder attached to the ship. Probably left by technicians.",
+      objectValues = Map.fromList [("pickable", True), ("openable", False), ("door", False)]
     }
