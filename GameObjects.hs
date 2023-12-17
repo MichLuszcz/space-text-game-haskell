@@ -23,7 +23,8 @@ module GameObjects
     broken_console,
     computer,
     metal_statue,
-    escape_pod_launch_console
+    escape_pod_launch_console,
+    makeshift_torch
   ) 
 where
 
@@ -264,3 +265,6 @@ escape_pod_launch_console =
   (Map.fromList [("pickable", False)])
 
 
+makeshift_torch :: Object
+makeshift_torch = 
+  Object "makeshift_torch" "A torch fashioned from a wooden table leg." (Map.fromList [("pickable", True), ("usable", True)])
