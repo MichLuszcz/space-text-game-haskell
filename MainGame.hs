@@ -5,7 +5,7 @@
 import Control.Monad (guard)
 import Control.Monad.RWS.Class (MonadState (put))
 import Data.List
-import Data.Map.Strict qualified as Map
+import qualified Data.Map.Strict as Map
 --
 -- Module imports
 --

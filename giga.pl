@@ -1116,6 +1116,14 @@ OR use fire to burn away alien mass blocking the path.
     - black alien mass
     - Window
     -
+    use engineering_chief_access_card on engineering_chief_office_door
+    open engineering_chief_office_door
+
+
+    use wooden_table_leg on small_fire
+    use makeshift_torch on alien_mass
+    use electrical_tools on broken_console
+use code_1867 on escape_pod_launch_console
 
 You have to be able to:
 - inspect everything

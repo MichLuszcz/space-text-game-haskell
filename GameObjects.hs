@@ -10,6 +10,23 @@ module GameObjects
     locker,
     deskKey,
     hammer,
+    workshop,
+    alien_mass,
+    engineering_chief_office_door,
+    hand_saw,
+    electrical_tools,
+    wooden_table_leg,
+    workshop_window,
+    small_fire,
+    escape_pods,
+    table,
+    broken_console,
+    closed_computer,
+    metal_statue,
+    escape_pod_launch_console,
+    makeshift_torch,
+    opened_computer,
+    code_1867,
     mainCorridor,
     supplyCabinet,
     universalSpeechTranslator,
@@ -26,7 +43,7 @@ module GameObjects
 where
 
 import Data.List
-import Data.Map.Strict qualified as Map
+import qualified Data.Map.Strict as Map
 import DataTypes
 
 -- Initial GameState
@@ -40,6 +57,9 @@ initialState =
           [ ("Crew Bedroom", crewBedroom),
             ("Crew Bedroom Vent", crewBedroomVent),
             ("Main Corridor", mainCorridor),
+            ("escape_pods", escape_pods),
+            ("workshop", workshop),
+            ("engineering_chief_office", engineering_chief_office),
             ("Cantine", cantine),
             ("Engine Room", engineRoom)
           ]
@@ -152,6 +172,134 @@ mainCorridor =
       roomExits = Map.empty
     }
 
+
+workshop :: Room
+workshop =
+    Room
+    { roomName = "workshop",
+      roomDescription = "The workshop is where most engineering on the station happens. \n\
+      \A door North leads to the engineering chiefs office, an opening South to the escape pods",
+      roomObjects =
+        [alien_mass, engineering_chief_office_door, toolbox, workshop_window, small_fire, table],
+      --roomExits = Map.fromList [(West, engine_room)]
+      roomExits = Map.empty
+    }
+
+
+
+alien_mass :: Object
+alien_mass = Object "alien_mass" "A strange black mass near the *workshop_window* blocks the path south. It pulsates slightly, as if breathing.\n\
+  \Underneath it you see one of your collegues being slowly absorbed by what you assume to be some kind of alien intruder. \n\
+    \A familiar smell of fuel fumes seems to be eminating from the creature.\n\
+    \It migth be flammable" (Map.fromList [("pickable", False)])
+
+engineering_chief_office_door :: Object
+engineering_chief_office_door = 
+  Object "engineering_chief_office_door" 
+  "The door to the chief's office, usually locked by an access card"
+  (Map.fromList [("pickable", False), ("openable", False), ("door", True)])
+
+
+toolbox :: Object
+toolbox = 
+  Object "toolbox" "Standard-issue toolbox. It's unlocked" (Map.fromList [("pickable", False), ("openable", True), ("door", False)])
+
+hand_saw :: Object
+hand_saw = 
+  Object "hand_saw" "An old hand saw" (Map.fromList [("pickable", True), ("usable", True)])
+
+electrical_tools :: Object
+electrical_tools =
+  Object "electrical_tools" "Various tools for electrical work such as wire cutters, soldering iron etc."
+  (Map.fromList [("pickable", True), ("usable", True)])
+
+
+
+wooden_table_leg :: Object
+wooden_table_leg = 
+  Object "wooden_table_leg" "Table leg, wooden" (Map.fromList [("pickable", True), ("usable", True)])
+  
+
+
+ -- TODO: HANDLE destroying
+workshop_window :: Object
+workshop_window = 
+  Object "workshop_window" "You look at the window and into space. You see pieces of debris coming from the ship as well as some strange black round objects you can't identify\n\
+   \Can be broken with enough force. Last time this happened 2 workers got sucked out into space."
+   (Map.fromList [("pickable", False)])
+
+small_fire :: Object
+small_fire = 
+  Object "small_fire" "A small electical fire seems to have broken out in the corner of the room"
+  (Map.fromList [("pickable", False)])
+
+
+table :: Object
+table = 
+  Object "table" "An old wooden table. One of its legs seems to be barely holding on. \n\
+  \You might be able to detach it if you had the proper tool."
+  (Map.fromList [("pickable", False)])
+
+
+engineering_chief_office :: Room
+engineering_chief_office =
+  Room {
+    roomName = "engineering_chief_office",
+    roomDescription = "The office is in heavy dissaray. A closed_computer sits on the desk. Next to one of the bookshelves lays a broken glass table. Something heavy must've fallen on it from one of the shelves.", 
+    roomObjects = [closed_computer, metal_statue],
+    roomExits = Map.fromList [(South, "workshop")]
+  }
+
+engineering_chief_access_card :: Object
+engineering_chief_access_card = Object "engineering_chief_access_card" "a card" (Map.fromList [("pickable", True), ("usable", True)])
+
+closed_computer :: Object
+closed_computer = Object "closed_computer" "A closed computer" (Map.fromList [("pickable", False), ("openable", True), ("door", False)])
+
+opened_computer :: Object
+opened_computer = Object "opened_computer" "You open the closed_computer sitting on the desk. You find an open email titled ESCAPE POD CODE UPDATE: \n\
+\ Hi, Qaux'ods, please remember about the annual escape pod tests. We've changed all the codes to *1867* for this week to make the process easier. \n\
+\ Please have the report done by next week. Cheers." (Map.fromList [("pickable", False)])
+
+
+metal_statue :: Object  
+metal_statue = Object "metal_statue" "A heavy metal statue seems to have fallen down from one of the shelves and broken through a glass table. \n\
+\It's just small enough for you to pick up and seems to be some kind of award given to the engineering chief." (Map.fromList [("pickable", True), ("usable", True)])
+
+escape_pods :: Room  
+escape_pods =
+  Room {
+    roomName = "escape_pods",
+    roomDescription = "This room is designed to hold the emergency evacuation modules for the engineering staff.\n\
+    \All of them have either already been deployed, or are now covered in an alien, dark grey substance similar to the one that blocked the entrance to this room.\n\
+     \All except for one. You have to move fast. The pods must first be lowered using the console.\n\
+      \Then, once inside one of the pods, access to launch has to be granted by entering a code known to the managers of a given branch of the station.",
+    roomObjects = [broken_console],
+    roomExits = Map.fromList [(North, "workshop")]
+  }
+
+broken_console :: Object  
+broken_console =
+  Object "broken_console" "A console used for lowering the escape pods, broken. Looks like it short-circuted. \n\
+  \You spot some black matter between the wires. This must be what caused the break.\n\
+   \Needs specialised tools to be fixed."
+  (Map.fromList [("pickable", False)])
+
+
+escape_pod_launch_console :: Object
+escape_pod_launch_console = 
+  Object "escape_pod_launch_console" "Inside the pod is a big screen with a prompt that reads: \n\
+  \PLEASE ENTER LAUNCH AUTHORISATION CODE TO INITIATE LAUNCH SEQUENCE"
+  (Map.fromList [("pickable", False)])
+
+
+makeshift_torch :: Object
+makeshift_torch = 
+  Object "makeshift_torch" "A torch fashioned from a wooden table leg." (Map.fromList [("pickable", True), ("usable", True)])
+
+code_1867 :: Object
+code_1867 =
+  Object "code_1867" "A code to a numerical lock" (Map.fromList [("pickable", True), ("usable", True)])
 -- Main Corridor Objects
 supplyCabinet :: Object
 supplyCabinet =

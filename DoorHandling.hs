@@ -1,6 +1,6 @@
 module DoorHandling where
 
-import Data.Map.Strict qualified as Map
+import qualified Data.Map.Strict as Map
 import DataTypes
 import ObjectManagment
 
@@ -13,6 +13,7 @@ openDoor doorToOpen gameState =
         -- Make a case of from the doorName, and the cases should call separate functions like openNorthDoor, openSouthDoor, etc.
         case doorToOpen of
           "Security_Door" -> openSecurityDoor gameState
+          "engineering_chief_office_door" -> open_engineering_chief_office_door gameState
           "Cantine_Entrance_Door" -> openCantineEntranceDoor gameState
           "South_Corridor_Exit_Door" -> openSouthCorridorExitDoor gameState
           _ -> (Nothing, Just "Door not found")
@@ -26,6 +27,17 @@ openSecurityDoor gameState =
       updatedAllRooms = Map.insert (roomName updatedCrewRoom) updatedCrewRoom (allRooms gameState)
       updatedAllRoomsSec = Map.insert (roomName updatedMainRoom) updatedMainRoom updatedAllRooms
    in (Just $ gameState {allRooms = updatedAllRoomsSec, currentRoom = updatedCrewRoom}, Just "\nSecurity Door to the Main Corridor opened.\n")
+  where
+    rooms = Map.elems (allRooms gameState)
+
+
+open_engineering_chief_office_door :: GameState -> (Maybe GameState, Maybe String)  
+open_engineering_chief_office_door gameState =
+  let
+      updatedWorkshop = addExit North "engineering_chief_office" (findRoom "workshop" rooms)
+      updatedAllRooms = Map.insert (roomName updatedWorkshop) updatedWorkshop (allRooms gameState)
+   in (Just $ gameState {allRooms = updatedAllRooms, currentRoom = updatedWorkshop},
+       Just "Engineering Chief's office door opened.")
   where
     rooms = Map.elems (allRooms gameState)
 
