@@ -179,7 +179,7 @@ engineering_chief_office_door :: Object
 engineering_chief_office_door = 
   Object "engineering_chief_office_door" 
   "The door to the chief's office, usually locked by an access card"
-  (Map.fromList [("pickable", False), ("openable", False)])
+  (Map.fromList [("pickable", False), ("openable", False), ("door", True)])
 
 
 toolbox :: Object
@@ -233,7 +233,7 @@ engineering_chief_office =
   }
 
 closed_computer :: Object
-closed_computer = Object "closed_computer" "" (Map.fromList [("pickable", False), ("openable", True)])
+closed_computer = Object "closed_computer" "A closed computer" (Map.fromList [("pickable", False), ("openable", True)])
 
 opened_computer :: Object
 opened_computer = Object "opened_computer" "You open the closed_computer sitting on the desk. You find an open email titled ESCAPE POD CODE UPDATE: \n\
