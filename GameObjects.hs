@@ -21,10 +21,12 @@ module GameObjects
     escape_pods,
     table,
     broken_console,
-    computer,
+    closed_computer,
     metal_statue,
     escape_pod_launch_console,
-    makeshift_torch
+    makeshift_torch,
+    opened_computer,
+    code_1867
   ) 
 where
 
@@ -224,15 +226,19 @@ engineering_chief_office :: Room
 engineering_chief_office =
   Room {
     roomName = "engineering_chief_office",
-    roomDescription = "The office is in heavy dissaray. An open computer sits on the desk. Next to one of the bookshelves lays a broken glass table. Something heavy must've fallen on it from one of the shelves.", 
-    roomObjects = [computer, metal_statue],
+    roomDescription = "The office is in heavy dissaray. An open closed_computer sits on the desk. Next to one of the bookshelves lays a broken glass table. Something heavy must've fallen on it from one of the shelves.", 
+    roomObjects = [closed_computer, metal_statue],
     roomExits = Map.empty
   }
 
-computer :: Object
-computer = Object "computer" "You open the computer sitting on the desk. You find an open email titled ESCAPE POD CODE UPDATE: \n\
+closed_computer :: Object
+closed_computer = Object "closed_computer" "" (Map.fromList [("pickable", False), ("openable", True)])
+
+opened_computer :: Object
+opened_computer = Object "opened_computer" "You open the closed_computer sitting on the desk. You find an open email titled ESCAPE POD CODE UPDATE: \n\
 \ Hi, Qaux'ods, please remember about the annual escape pod tests. We've changed all the codes to *1867* for this week to make the process easier. \n\
 \ Please have the report done by next week. Cheers." (Map.fromList [("pickable", False)])
+
 
 metal_statue :: Object  
 metal_statue = Object "metal_statue" "A heavy metal statue seems to have fallen down from one of the shelves and broken through a glass table. \n\
@@ -268,3 +274,7 @@ escape_pod_launch_console =
 makeshift_torch :: Object
 makeshift_torch = 
   Object "makeshift_torch" "A torch fashioned from a wooden table leg." (Map.fromList [("pickable", True), ("usable", True)])
+
+code_1867 :: Object
+code_1867 =
+  Object "code_1867" "A code to a numerical lock" (Map.fromList [("pickable", True), ("usable", True)])
