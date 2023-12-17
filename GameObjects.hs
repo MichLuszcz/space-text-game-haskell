@@ -59,7 +59,7 @@ initialState =
             ("Main Corridor", mainCorridor),
             ("escape_pods", escape_pods),
             ("workshop", workshop),
-            ("engineering_chief_office", engineering_chief_office)
+            ("engineering_chief_office", engineering_chief_office),
             ("Cantine", cantine),
             ("Engine Room", engineRoom)
           ]

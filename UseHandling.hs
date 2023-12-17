@@ -124,7 +124,7 @@ finishGame gameState = (Just gameState,
        \ You made it. As you're leaving the station you see the ship is covered in a moving blanket of black material. \n\
        \You live to tell the tale. You try contacting the closest colony and explain the situation. You get permission for emergency landing. \n\
        \Congratulations! You managed to escape the station!")
-   in (Just $ gameState {currentRoom = updatedRoom, allRooms = Map.insert (roomName currentRoomObj) updatedRoom (allRooms gameState), inventory = updatedInventory}, Just ("\n" ++ doorName ++ " succesfully unlocked.\n"))
+   
 
 -- Create a hammerCabinet function that takes a GameState and sets the value of "openable" to True for the Supply_Cabinet, removes the hammer and prints a message
 hammerCabinet :: GameState -> (Maybe GameState, Maybe String)
