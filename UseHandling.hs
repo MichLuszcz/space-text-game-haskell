@@ -267,7 +267,7 @@ useLadder gameState =
             roomExits = roomExits currRoom,
             roomObjects = filter (\obj -> objectName obj /= "Bridge_Gap") (roomObjects currRoom)
           }
-      updatedRoom2 = addExit South "Michal_Room" updatedRoom
+      updatedRoom2 = addExit South "workshop" updatedRoom
       currentRoomObj = currentRoom gameState
    in ( Just $
           gameState
