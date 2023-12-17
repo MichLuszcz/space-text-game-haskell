@@ -15,6 +15,7 @@ openDoor doorToOpen gameState =
           "Security_Door" -> openSecurityDoor gameState
           "Cantine_Entrance_Door" -> openCantineEntranceDoor gameState
           "South_Corridor_Exit_Door" -> openSouthCorridorExitDoor gameState
+          "Void_Entrance" -> openVoidEntrance gameState
           _ -> (Nothing, Just "Door not found")
       Just False -> (Nothing, Just "\nThis door cannot be opened.")
     Nothing -> (Nothing, Just "\nDoor not found.")
@@ -47,5 +48,18 @@ openSouthCorridorExitDoor gameState =
       updatedAllRooms = Map.insert (roomName updatedEngineRoom) updatedEngineRoom (allRooms gameState)
       updatedAllRoomsSec = Map.insert (roomName updatedMainRoom) updatedMainRoom updatedAllRooms
    in (Just $ gameState {allRooms = updatedAllRoomsSec, currentRoom = updatedMainRoom}, Just "\nSouth Corridor Exit Door to the Engine Room opened.\n")
+  where
+    rooms = Map.elems (allRooms gameState)
+
+openVoidEntrance :: GameState -> (Maybe GameState, Maybe String)
+openVoidEntrance gameState =
+  if "Space_Suit" `elem` map objectName (inventory gameState)
+    then
+      let updatedVoidRoom = addExit West "Crew Bedroom Vent" (findRoom "The Void" rooms)
+          updatedMainRoom = addExit East "The Void" (findRoom "Crew Bedroom Vent" rooms)
+          updatedAllRooms = Map.insert (roomName updatedVoidRoom) updatedVoidRoom (allRooms gameState)
+          updatedAllRoomsSec = Map.insert (roomName updatedMainRoom) updatedMainRoom updatedAllRooms
+       in (Just $ gameState {allRooms = updatedAllRoomsSec, currentRoom = updatedMainRoom}, Just "\nVoid Entrance Door to the Crew Bedroom Vent opened.\n")
+    else (Nothing, Just "You died!")
   where
     rooms = Map.elems (allRooms gameState)

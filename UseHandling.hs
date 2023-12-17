@@ -12,21 +12,26 @@ import Text.XHtml (target)
 -- Function to handle the use command like openDoor from DoorHandling.hs
 useItem :: String -> String -> GameState -> (Maybe GameState, Maybe String)
 useItem itemName targetName gameState =
-  case findObject itemName (inventory gameState) of
-    Just obj -> case Map.lookup "usable" (objectValues obj) of
-      Just True ->
-        -- Make a case of from the itemName and targetName, and the cases should call separate functions like keyUnlockNorthDoor
-        case (itemName, targetName) of
-          ("Desk_Key", "Desk") -> keyUnlock itemName targetName gameState
-          ("Crew_Access_Card", "Security_Door") -> keyUnlock itemName targetName gameState
-          ("Hammer", "Supply_Cabinet") -> hammerCabinet gameState
-          ("Thick_Blanket", "Electric_Box") -> putOutFire gameState
-          ("Universal_Speech_Translator", "Wounded_Engineering_Chief") -> translateChief gameState
-          ("Cyber_Key", "South_Corridor_Exit_Door") -> keyUnlock itemName targetName gameState
-          _ -> (Nothing, Just ("You can't figure out how to use " ++ itemName ++ " on " ++ targetName ++ ".\n"))
-      Just False -> (Nothing, Just "This item cannot be used.")
-      _ -> (Nothing, Just "This item cannot be used.")
-    Nothing -> (Nothing, Just "Item not found")
+  if itemName == "9911" && targetName == "Locked_Crate"
+    then openCrate gameState
+    else case findObject itemName (inventory gameState) of
+      Just obj -> case Map.lookup "usable" (objectValues obj) of
+        Just True ->
+          -- Make a case of from the itemName and targetName, and the cases should call separate functions like keyUnlockNorthDoor
+          case (itemName, targetName) of
+            ("Desk_Key", "Desk") -> keyUnlock itemName targetName gameState
+            ("Crew_Access_Card", "Security_Door") -> keyUnlock itemName targetName gameState
+            ("Hammer", "Supply_Cabinet") -> hammerCabinet gameState
+            ("Thick_Blanket", "Electric_Box") -> putOutFire gameState
+            ("Universal_Speech_Translator", "Wounded_Engineering_Chief") -> translateChief gameState
+            ("Cyber_Key", "South_Corridor_Exit_Door") -> keyUnlock itemName targetName gameState
+            ("Cyber_Key", "Control_Panel") -> lowerBridge gameState
+            ("UV_Flashlight", "Locked_Crate") -> flashOnCrate gameState
+            ("Ladder", "Bridge_Gap") -> useLadder gameState
+            _ -> (Nothing, Just ("You can't figure out how to use " ++ itemName ++ " on " ++ targetName ++ ".\n"))
+        Just False -> (Nothing, Just "This item cannot be used.")
+        _ -> (Nothing, Just "This item cannot be used.")
+      Nothing -> (Nothing, Just "Item not found")
 
 -- Create a keyUnlock function that takes a doorName and a GameState sets the value of "openable" to True for the doorName
 keyUnlock :: String -> String -> GameState -> (Maybe GameState, Maybe String)
@@ -95,3 +100,59 @@ translateChief gameState =
       -- Create newAllRooms, where the InitialRoom is replaced with the updatedRoom
       currentRoomObj = currentRoom gameState
    in (Just $ gameState {currentRoom = updatedRoom, allRooms = Map.insert (roomName currentRoomObj) updatedRoom (allRooms gameState), inventory = updatedInventory2}, Just "You used the translator on the wounded engineering chief. \n")
+
+lowerBridge :: GameState -> (Maybe GameState, Maybe String)
+lowerBridge gameState =
+  let updatedRoom =
+        (currentRoom gameState)
+          { roomName = "Engine Room",
+            roomDescription = "After the bridge felt down, it left *bridge_gap* and opened entrance to the *nearby_vent*, that looks like it could be crawled into.",
+            roomExits =
+              Map.fromList [(West, "Engine Room Vent"), (North, "Main Corridor")],
+            roomObjects = [bridgeGap]
+          }
+      currentRoomObj = currentRoom gameState
+   in (Just $ gameState {currentRoom = updatedRoom, allRooms = Map.insert (roomName currentRoomObj) updatedRoom (allRooms gameState)}, Just "The key seemes to fit perfectly, you hear a loud noise, and the bridge to the (plot_element_ID1) starts lowering down...\nIt is making a loud noise, engine room must have really taken a lot of damage.\nSNAP! The bridge broke down, and fell to the bottom. On its way it made a hole in nearby vent.")
+
+flashOnCrate :: GameState -> (Maybe GameState, Maybe String)
+flashOnCrate gameState = (Just gameState, Just "Fingerprints can only be seen on 9 and 1 butons. \n")
+
+openCrate :: GameState -> (Maybe GameState, Maybe String)
+openCrate gameState =
+  let currRoom = currentRoom gameState
+      updatedRoom =
+        currRoom
+          { roomDescription = roomDescription currRoom,
+            roomName = roomName currRoom,
+            roomExits = roomExits currRoom,
+            roomObjects = filter (\obj -> objectName obj /= "Locked_Crate") (roomObjects currRoom) ++ [spaceSuitHelmet, spaceSuitTrousers, spaceSuitJacket]
+          }
+   in ( Just $
+          gameState
+            { currentRoom = updatedRoom,
+              allRooms = Map.insert (roomName currRoom) updatedRoom (allRooms gameState),
+              inventory = inventory gameState
+            },
+        Just "Nice! The code worked! *Space_Suit_Trousers* and *Space_Suit_Helmet* wre inside."
+      )
+
+useLadder :: GameState -> (Maybe GameState, Maybe String)
+useLadder gameState =
+  let currRoom = currentRoom gameState
+      updatedRoom =
+        currRoom
+          { roomDescription = roomDescription currRoom,
+            roomName = roomName currRoom,
+            roomExits = roomExits currRoom,
+            roomObjects = filter (\obj -> objectName obj /= "Bridge_Gap") (roomObjects currRoom)
+          }
+      updatedRoom2 = addExit South "Michal_Room" updatedRoom
+      currentRoomObj = currentRoom gameState
+   in ( Just $
+          gameState
+            { currentRoom = updatedRoom2,
+              allRooms = Map.insert (roomName currentRoomObj) updatedRoom2 (allRooms gameState),
+              inventory = inventory gameState
+            },
+        Just "You put the ladder on the gap, and now you can cross it."
+      )
