@@ -22,6 +22,7 @@ useItem itemName targetName gameState =
           ("makeshift_torch", "alien_mass") -> set_alien_on_fire gameState
           ("engineering_chief_access_card", "engineering_chief_office_door") -> keyUnlock itemName targetName gameState
           ("electrical_tools", "broken_console") -> fixConsole gameState
+          ("code_1867", "escape_pod_launch_console") -> finishGame gameState
           _ -> (Nothing, Just "Item not found")
       Just False -> (Nothing, Just "This item cannot be used.")
       _ -> (Nothing, Just "This item cannot be used.")
@@ -90,3 +91,14 @@ fixConsole gameState =
                         allRooms = Map.insert (roomName updatedRoom') updatedRoom' (allRooms gameState),
                          inventory = updatedInventory},
        Just "You manage to fix the console and use it to lower down the remaining escape pod. You can now access the *escape_pod_launch_console* inside the pod and get out of here.")
+
+
+
+finishGame :: GameState -> (Maybe GameState, Maybe String)
+finishGame gameState = (Just $ gameState,
+       Just "You punch in the code. The door to the pod closes behind you and you hear a robotic voice come from the console: \n\
+       \Voice: Launch sequence initiated. Please take a seat and fasten your seatbelts. \n\
+       \You sit down and hope for the best. After a 20 second countdown the pod begins to shake and propels itself out of the station. \n\
+       \ You made it. As you're leaving the station you see the ship is covered in a moving blanket of black material. \n\
+       \You live to tell the tale. You try contacting the closest colony and explain the situation. You get permission for emergency landing. \n\
+       \Congratulations! You managed to escape the station!")
