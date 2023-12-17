@@ -18,7 +18,6 @@ useItem itemName targetName gameState =
           ("hand_saw", "table") -> sawOffTableLeg gameState
           ("Desk_Key", "Desk") -> keyUnlock itemName targetName gameState
           ("Crew_Access_Card", "Security_Door") -> keyUnlock itemName targetName gameState
-          ("hand_saw", "table") -> sawOffTableLeg gameState
           ("wooden_table_leg", "small_fire") -> set_leg_on_fire gameState
           ("makeshift_torch", "alien_mass") -> set_alien_on_fire gameState
           ("engineering_chief_access_card", "engineering_chief_office_door") -> keyUnlock itemName targetName gameState
@@ -53,7 +52,7 @@ sawOffTableLeg gameState =
 set_leg_on_fire :: GameState -> (Maybe GameState, Maybe String)
 set_leg_on_fire gameState =
   let updatedInventory = filter (\obj -> objectName obj /= "wooden_table_leg") $ inventory gameState
-      updatedInventory' = makeshift_torch: updatedInventory
+      updatedInventory' = makeshift_torch : updatedInventory
    in (Just $ gameState {inventory = updatedInventory',
                          allRooms = allRooms gameState,
                          currentRoom = currentRoom gameState},
@@ -77,14 +76,17 @@ set_alien_on_fire gameState =
 
 fixConsole :: GameState -> (Maybe GameState, Maybe String)
 fixConsole gameState =
-  let updatedRoom = currentRoom gameState {
+  let updatedRoom = (currentRoom gameState) {
            roomObjects = filter (\o -> objectName o /= "broken_console") $
-                            roomObjects $ currentRoom gameState ++ 
-                            [escape_pod_launch_console]  
+                            roomObjects $ currentRoom gameState 
+                            
        }
+      updatedRoom' = updatedRoom {
+           roomObjects = escape_pod_launch_console : roomObjects updatedRoom  
+       } 
       updatedInventory = filter (\o -> objectName o /= "electrical_tools") $
                            inventory gameState
-   in (Just $ gameState {currentRoom = updatedRoom,  
-                        allRooms = Map.insert (roomName updatedRoom) updatedRoom (allRooms gameState),
+   in (Just $ gameState {currentRoom = updatedRoom',  
+                        allRooms = Map.insert (roomName updatedRoom') updatedRoom' (allRooms gameState),
                          inventory = updatedInventory},
        Just "You manage to fix the console and use it to lower down the remaining escape pod. You can now access the *escape_pod_launch_console* inside the pod and get out of here.")
