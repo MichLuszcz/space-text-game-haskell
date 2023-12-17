@@ -16,6 +16,7 @@ openObject objectToOpen gameState =
           "Desk" -> openDesk gameState
           "Locker" -> openLocker gameState
           "toolbox" -> openToolbox gameState
+          "closed_computer" -> openComputer gameState
           _ -> (Nothing, Just "Object not found")
       Just False -> (Nothing, Just "\n This object cannot be opened.")
     Nothing -> (Nothing, Just "\n Object not found.")

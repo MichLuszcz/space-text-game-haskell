@@ -160,7 +160,8 @@ workshop :: Room
 workshop =
     Room
     { roomName = "workshop",
-      roomDescription = "The workshop is where most engineering on the station happens.",
+      roomDescription = "The workshop is where most engineering on the station happens. \n\
+      \A door North leads to the engineering chiefs office, an opening South to the escape pods",
       roomObjects =
         [alien_mass, engineering_chief_office_door, toolbox, workshop_window, small_fire, table],
       --roomExits = Map.fromList [(West, engine_room)]
@@ -184,7 +185,7 @@ engineering_chief_office_door =
 
 toolbox :: Object
 toolbox = 
-  Object "toolbox" "Standard-issue toolbox. It's unlocked" (Map.fromList [("pickable", False), ("openable", True)])
+  Object "toolbox" "Standard-issue toolbox. It's unlocked" (Map.fromList [("pickable", False), ("openable", True), ("door", False)])
 
 hand_saw :: Object
 hand_saw = 
@@ -227,13 +228,16 @@ engineering_chief_office :: Room
 engineering_chief_office =
   Room {
     roomName = "engineering_chief_office",
-    roomDescription = "The office is in heavy dissaray. An open closed_computer sits on the desk. Next to one of the bookshelves lays a broken glass table. Something heavy must've fallen on it from one of the shelves.", 
+    roomDescription = "The office is in heavy dissaray. A closed_computer sits on the desk. Next to one of the bookshelves lays a broken glass table. Something heavy must've fallen on it from one of the shelves.", 
     roomObjects = [closed_computer, metal_statue],
-    roomExits = Map.empty
+    roomExits = Map.fromList [(South, "workshop")]
   }
 
+engineering_chief_access_card :: Object
+engineering_chief_access_card = Object "engineering_chief_access_card" "a card" (Map.fromList [("pickable", True), ("usable", True)])
+
 closed_computer :: Object
-closed_computer = Object "closed_computer" "A closed computer" (Map.fromList [("pickable", False), ("openable", True)])
+closed_computer = Object "closed_computer" "A closed computer" (Map.fromList [("pickable", False), ("openable", True), ("door", False)])
 
 opened_computer :: Object
 opened_computer = Object "opened_computer" "You open the closed_computer sitting on the desk. You find an open email titled ESCAPE POD CODE UPDATE: \n\

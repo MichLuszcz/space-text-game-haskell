@@ -13,6 +13,7 @@ openDoor doorToOpen gameState =
         -- Make a case of from the doorName, and the cases should call separate functions like openNorthDoor, openSouthDoor, etc.
         case doorToOpen of
           "Security_Door" -> openSecurityDoor gameState
+          "engineering_chief_office_door" -> open_engineering_chief_office_door gameState
           _ -> (Nothing, Just "Door not found")
       Just False -> (Nothing, Just "\n This door cannot be opened.")
     Nothing -> (Nothing, Just "\n Door not found.")

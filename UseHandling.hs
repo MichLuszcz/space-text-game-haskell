@@ -73,7 +73,7 @@ set_alien_on_fire gameState =
    in (Just $ gameState {currentRoom = updatedRoom',
                          inventory = updatedInventory,
                          allRooms = Map.insert (roomName updatedRoom') updatedRoom' (allRooms gameState)},
-       Just "The alien mass burns away, revealing a path to the escape pods!")
+       Just "The alien mass burns away, revealing a path South to the escape pods!")
 
 
 fixConsole :: GameState -> (Maybe GameState, Maybe String)
