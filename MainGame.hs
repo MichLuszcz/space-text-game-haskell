@@ -26,4 +26,8 @@ main = do
   putStrLn "Welcome to Haskell Adventure."
   printSeparator
   printInstructions
+
+  putStrLn "A loud crashing sound wakes you up in you bed inside the engineering crew bedroom. You look around and see that the room is in a mess. A vent in the east corner of the room swings wide open. Blaring alarms can be heard from the main corridor on the south side. You see a locker, a desk and a bed. You need to act, fast."
+  printEmptyLine
+  putStrLn "You are at the crew bedroom."
   gameLoop initialState

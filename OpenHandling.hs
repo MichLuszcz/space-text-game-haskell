@@ -17,9 +17,10 @@ openObject objectToOpen gameState =
           "Locker" -> openLocker gameState
           "toolbox" -> openToolbox gameState
           "closed_computer" -> openComputer gameState
+          "Supply_Cabinet" -> openSupplyCabinet gameState
           _ -> (Nothing, Just "Object not found")
-      Just False -> (Nothing, Just "\n This object cannot be opened.")
-    Nothing -> (Nothing, Just "\n Object not found.")
+      Just False -> (Nothing, Just "\nThis object cannot be opened.")
+    Nothing -> (Nothing, Just "\nObject not found.")
 
 openDesk :: GameState -> (Maybe GameState, Maybe String)
 openDesk gameState =
@@ -68,3 +69,12 @@ openComputer gameState =
        Just "You open the closed_computer sitting on the desk. You find an open email titled ESCAPE POD CODE UPDATE: \n\
 \ Hi, Qaux'ods, please remember about the annual escape pod tests. We've changed all the codes to *1867* for this week to make the process easier. \n\
 \ Please have the report done by next week. Cheers.\n You keep the code in mind for later")
+openSupplyCabinet :: GameState -> (Maybe GameState, Maybe String)
+openSupplyCabinet gameState =
+  -- Create an updatedRoom where the locker is removed from the roomObjects list, and an access card is added to the roomObjects list
+  let newRoomObjects = filter (\o -> "Supply_Cabinet" /= objectName o) (roomObjects $ currentRoom gameState)
+      -- Add AcccessCard to newRoomObjects
+      newRoomObjectsWithTranslator = universalSpeechTranslator : newRoomObjects
+      updatedRoom = (currentRoom gameState) {roomObjects = newRoomObjectsWithTranslator}
+      updatedAllRooms = Map.insert (roomName updatedRoom) updatedRoom (allRooms gameState)
+   in (Just $ gameState {allRooms = updatedAllRooms, currentRoom = updatedRoom}, Just "\nSupply Cabinet opened.\n")

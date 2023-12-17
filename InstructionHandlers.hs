@@ -22,6 +22,7 @@ import UtilityFunctions
 handleMove :: Direction -> GameState -> IO ()
 handleMove direction gameState = case move direction gameState of
   Just newState -> do
+    printEmptyLine
     putStrLn $ roomDescription (currentRoom newState)
     gameLoop newState
   Nothing -> do
@@ -106,6 +107,17 @@ handleLook gameState = do
   printEmptyLine
   gameLoop gameState
 
+handleConnect :: String -> String -> String -> GameState -> IO ()
+handleConnect cab1 cab2 cab3 gameState = do
+  let (newState, resultMsg) = connectCables cab1 cab2 cab3 gameState
+  case resultMsg of
+    Just msg -> do
+      putStrLn msg
+      case newState of
+        Just state -> gameLoop state
+        Nothing -> gameLoop gameState
+    Nothing -> return ()
+
 invalidInput :: GameState -> IO ()
 invalidInput gameState = do
   printEmptyLine
@@ -115,10 +127,10 @@ invalidInput gameState = do
 
 gameLoop :: GameState -> IO ()
 gameLoop gameState = do
-  printSeparator
+  -- printSeparator
   -- putStrLn $ roomDescription (currentRoom gameState)
   printSeparator
-  putStr "What do you want to do? \n > "
+  putStr "What do you want to do? \n> "
 
   command <- getLine
 
@@ -147,4 +159,5 @@ gameLoop gameState = do
     ["list", "rooms"] -> do
       putStrLn $ listRooms gameState
       gameLoop gameState
+    ["connect", cab1, cab2, cab3] -> handleConnect cab1 cab2 cab3 gameState
     _ -> invalidInput gameState

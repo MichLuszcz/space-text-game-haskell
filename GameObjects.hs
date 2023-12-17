@@ -26,8 +26,20 @@ module GameObjects
     escape_pod_launch_console,
     makeshift_torch,
     opened_computer,
-    code_1867
-  ) 
+    code_1867,
+    mainCorridor,
+    supplyCabinet,
+    universalSpeechTranslator,
+    electricBox,
+    southCorridorExitDoor,
+    engineeringChiefAccessCard,
+    woundedEngineeringChief,
+    cantineEntranceDoor,
+    cantine,
+    lockedSafetyBox,
+    cyberKey,
+    engineRoom,
+  )
 where
 
 import Data.List
@@ -48,6 +60,8 @@ initialState =
             ("escape_pods", escape_pods),
             ("workshop", workshop),
             ("engineering_chief_office", engineering_chief_office)
+            ("Cantine", cantine),
+            ("Engine Room", engineRoom)
           ]
     }
 
@@ -61,9 +75,10 @@ crewBedroom =
         [ desk,
           bed,
           locker,
-          securityDoor
+          securityDoor,
+          thickBlanket
         ],
-      roomExits = Map.fromList [(West, "Crew Bedroom Vent")]
+      roomExits = Map.fromList [(East, "Crew Bedroom Vent")]
     }
 
 -- Crew Bedroom Objects
@@ -96,7 +111,7 @@ thickBlanket =
   Object
     { objectName = "Thick_Blanket",
       objectDescription = "A thick wooly blanket.",
-      objectValues = Map.fromList [("pickable", True), ("openable", False), ("door", False)]
+      objectValues = Map.fromList [("pickable", True), ("usable", True)]
     }
 
 locker :: Object
@@ -128,11 +143,11 @@ crewBedroomVent :: Room
 crewBedroomVent =
   Room
     { roomName = "Crew Bedroom Vent",
-      roomDescription = "You crawl into a rather spatious crew bedroom vent. There it is! This is where you Desk_key went! Good thing it didn't fall deeper or you would be stuck in here for ever.",
+      roomDescription = "You crawl into a rather spatious crew bedroom vent. There it is! This is where you Desk_Key went! Good thing it didn't fall deeper or you would be stuck in here for ever.",
       roomObjects =
         [ deskKey
         ],
-      roomExits = Map.fromList [(East, "Crew Bedroom")]
+      roomExits = Map.fromList [(West, "Crew Bedroom")]
     }
 
 -- Crew Bedroom Vent Objects
@@ -149,9 +164,11 @@ mainCorridor :: Room
 mainCorridor =
   Room
     { roomName = "Main Corridor",
-      roomDescription = "You are in the main corridor. There is a security door on the north, and a door to the south.",
+      roomDescription = "You decide it's finally time to leave your quarters. Staying here definetely won't help you find out what's going on. \nYou enter the main corridor, but you can barely see anything. You can see the reason now why the alarms are going off. \nA fire is raging only a few meters in front of you. 'Probably just an overcharged e-box' - your engineer's instinct tells you. However you still can't pass through it. You need to find a way to put it out. \nBehind your back, at the west end, there is a supply cabinet, but the east end of the corridor lays behind the fire. ",
       roomObjects =
-        [],
+        [ supplyCabinet,
+          electricBox
+        ],
       roomExits = Map.empty
     }
 
@@ -283,3 +300,99 @@ makeshift_torch =
 code_1867 :: Object
 code_1867 =
   Object "code_1867" "A code to a numerical lock" (Map.fromList [("pickable", True), ("usable", True)])
+-- Main Corridor Objects
+supplyCabinet :: Object
+supplyCabinet =
+  Object
+    { objectName = "Supply_Cabinet",
+      objectDescription = "The supply cabinet is wrapped in a chain and locked with a padlock. There is now way there is a key here.",
+      objectValues = Map.fromList [("pickable", False), ("openable", False), ("door", False)]
+    }
+
+universalSpeechTranslator :: Object
+universalSpeechTranslator =
+  Object
+    { objectName = "Universal_Speech_Translator",
+      objectDescription = "A device that translates any language to any other language. Use it on a being to commucate with it.",
+      objectValues = Map.fromList [("pickable", True), ("usable", True)]
+    }
+
+electricBox :: Object
+electricBox =
+  Object
+    { objectName = "Electric_Box",
+      objectDescription = "The electric box is on fire. You need to put it out somehow.",
+      objectValues = Map.fromList [("pickable", False), ("usable", False)]
+    }
+
+southCorridorExitDoor :: Object
+southCorridorExitDoor =
+  Object
+    { objectName = "South_Corridor_Exit_Door",
+      objectDescription = "This exit leads out of the living space to the other sections of the ship. \nIf you want to go through it, you need to unlock it somehow.",
+      objectValues = Map.fromList [("pickable", False), ("openable", False), ("door", True)]
+    }
+
+engineeringChiefAccessCard :: Object
+engineeringChiefAccessCard =
+  Object
+    { objectName = "Engineering_Chief_Access_Card",
+      objectDescription = "The access card of the engineering chief. It can be used to open doors that require an engineering chief access level.",
+      objectValues = Map.fromList [("pickable", True), ("usable", True)]
+    }
+
+woundedEngineeringChief :: Object
+woundedEngineeringChief =
+  Object
+    { objectName = "Wounded_Engineering_Chief",
+      objectDescription = "You: Hey, chief, are you okay? What happened? \nQaux'ods: Glibberflop blorptix zlorgaflar, sploink vroobleshnack glipthor flibberjib!!! \nYou: I can't understand anything. God, if I only knew Luzxorian...",
+      objectValues = Map.fromList [("pickable", False), ("usable", False)]
+    }
+
+cantineEntranceDoor :: Object
+cantineEntranceDoor =
+  Object
+    { objectName = "Cantine_Entrance_Door",
+      objectDescription = "This door leads to the cantine. It is not locked with any lock.",
+      objectValues = Map.fromList [("pickable", False), ("openable", True), ("door", True)]
+    }
+
+-- Cantine
+cantine :: Room
+cantine =
+  Room
+    { roomName = "Cantine",
+      roomDescription = "You enter the cantine. You see a Locked_Safety_Box, with wires on the control panel ripped apart. \n",
+      roomObjects =
+        [ lockedSafetyBox
+        ],
+      roomExits = Map.empty
+    }
+
+-- Cantine Objects
+lockedSafetyBox :: Object
+lockedSafetyBox =
+  Object
+    { objectName = "Locked_Safety_Box",
+      objectDescription = "The safety box is locked, and the control panel wires are ripped apart \nIt won't open right now, but maybe if you reconnect the wires you could open it \nThere are 3 sockets and 3 cables. You need to connect them in the right order. \n Blue - b \nRed -r \nYellow -y \nYou can connect the wires using connect <cable1> <cable2> <cable3> \n",
+      objectValues = Map.fromList [("pickable", False), ("openable", False), ("door", False)]
+    }
+
+cyberKey :: Object
+cyberKey =
+  Object
+    { objectName = "Cyber_Key",
+      objectDescription = "A key that can open a securely locked door.",
+      objectValues = Map.fromList [("pickable", True), ("usable", True)]
+    }
+
+-- Engine Room
+engineRoom :: Room
+engineRoom =
+  Room
+    { roomName = "Engine Room",
+      roomDescription = "You enter the engine room.\n",
+      roomObjects =
+        [],
+      roomExits = Map.fromList [(North, "Main Corridorz")]
+    }
