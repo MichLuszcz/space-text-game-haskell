@@ -1,7 +1,7 @@
 module DataTypes where
 
 import Data.List
-import Data.Map.Strict qualified as Map
+import qualified Data.Map.Strict  as Map
 
 -- Define a data type to represent directions
 data Direction = North | South | West | East

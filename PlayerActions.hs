@@ -1,7 +1,7 @@
 module PlayerActions where
 
 import Data.List
-import Data.Map.Strict qualified as Map
+import  qualified Data.Map.Strict as Map
 -- Module imports
 import DataTypes
 import ObjectManagment

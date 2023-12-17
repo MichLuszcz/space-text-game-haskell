@@ -28,7 +28,7 @@ module GameObjects
 where
 
 import Data.List
-import Data.Map.Strict qualified as Map
+import qualified Data.Map.Strict as Map
 import DataTypes
 
 -- Initial GameState
