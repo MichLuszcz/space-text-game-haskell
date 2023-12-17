@@ -38,19 +38,19 @@ keyUnlock keyName doorName gameState =
       currentRoomObj = currentRoom gameState
    in (Just $ gameState {currentRoom = updatedRoom, allRooms = Map.insert (roomName currentRoomObj) updatedRoom (allRooms gameState), inventory = updatedInventory}, Just (doorName ++ " succesfully unlocked.\n"))
 
-sawOffTableLeg :: gameState -> (Maybe GameState, Maybe String)
+sawOffTableLeg :: GameState -> (Maybe GameState, Maybe String)
 sawOffTableLeg gameState =
   -- Find remove table and add wooden table leg to the room
-  let updatedRoom = (currentRoom gameState) {roomObjects = wooden_table_leg: filter (\o -> targetName /= "table") (roomObjects $ currentRoom gameState)}
+  let updatedRoom = (currentRoom gameState) {roomObjects = wooden_table_leg: filter (\o -> objectName o /= "table") (roomObjects $ currentRoom gameState)}
       -- Remove the saw from the inventory and add the leg
       updatedInventory = filter (\obj -> objectName obj /= "hand_saw") (inventory gameState)
    in -- Add updatedRoom to allRooms
       (Just $ gameState {currentRoom = updatedRoom, allRooms = Map.insert (roomName updatedRoom) updatedRoom (allRooms gameState), inventory = updatedInventory}, 
-      Just "You manage to sever the loose leg with your saw. 
-      The second the leg comes off the saw breaks.\n A *wooden_table_leg* lies on the floor")
+      Just "You manage to sever the loose leg with your saw. \n\
+      \The second the leg comes off the saw breaks.\n A *wooden_table_leg* lies on the floor")
 
 
-set_leg_on_fire :: gameState -> (Maybe GameState, Maybe String)
+set_leg_on_fire :: GameState -> (Maybe GameState, Maybe String)
 set_leg_on_fire gameState =
   let updatedInventory = filter (\obj -> objectName obj /= "wooden_table_leg") $ inventory gameState
       updatedInventory' = makeshift_torch: updatedInventory

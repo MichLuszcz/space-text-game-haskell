@@ -184,7 +184,7 @@ toolbox =
 
 hand_saw :: Object
 hand_saw = 
-  Object "hand_saw" "An old hand saw" (Map.fromList [("pickable", True), ("usable", True))
+  Object "hand_saw" "An old hand saw" (Map.fromList [("pickable", True), ("usable", True)])
 
 electrical_tools :: Object
 electrical_tools =
@@ -195,7 +195,7 @@ electrical_tools =
 
 wooden_table_leg :: Object
 wooden_table_leg = 
-  Object "wooden_table_leg" "Table leg, wooden" (Map.fromList [("pickable", True), ("usable", True))
+  Object "wooden_table_leg" "Table leg, wooden" (Map.fromList [("pickable", True), ("usable", True)])
   
 
 
