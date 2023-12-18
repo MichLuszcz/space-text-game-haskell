@@ -208,7 +208,7 @@ workshop =
       roomObjects =
         [alien_mass, engineering_chief_office_door, toolbox, workshop_window, small_fire, table],
       --roomExits = Map.fromList [(West, engine_room)]
-      roomExits = Map.empty
+      roomExits = Map.fromList [(North, "Engine Room")]
     }
 
 alien_mass :: Object
