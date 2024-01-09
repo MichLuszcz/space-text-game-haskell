@@ -2,7 +2,7 @@ module UseHandling where
 
 import Control.Monad.RWS.Lazy (MonadState (put))
 import Data.List
-import qualified Data.Map.Strict as Map
+import Data.Map.Strict qualified as Map
 import DataTypes
 import Distribution.Compat.Lens (use)
 import GameObjects
@@ -31,7 +31,7 @@ useItem itemName targetName gameState =
             ("Hammer", "Supply_Cabinet") -> hammerCabinet gameState
             ("Thick_Blanket", "Electric_Box") -> putOutFire gameState
             ("Universal_Speech_Translator", "Wounded_Engineering_Chief") -> translateChief gameState
-            ("Cyber_Key", "South_Corridor_Exit_Door") -> keyUnlock itemName targetName gameState
+            -- ("Cyber_Key", "South_Corridor_Exit_Door") -> keyUnlock itemName targetName gameState
             ("Cyber_Key", "Control_Panel") -> lowerBridge gameState
             ("UV_Flashlight", "Locked_Crate") -> flashOnCrate gameState
             ("Ladder", "Bridge_Gap") -> useLadder gameState
@@ -106,7 +106,8 @@ fixConsole gameState =
         (currentRoom gameState)
           { roomObjects =
               filter (\o -> objectName o /= "broken_console") $
-                roomObjects $ currentRoom gameState
+                roomObjects $
+                  currentRoom gameState
           }
       updatedRoom' =
         updatedRoom
@@ -183,7 +184,8 @@ putOutFire gameState =
       newRoomObjects3 = cantineEntranceDoor : newRoomObjects2
       updatedInventory = filter (\obj -> objectName obj /= "Thick_Blanket") (inventory gameState)
 
-      updatedRoom2 = updatedRoom {roomObjects = newRoomObjects3}
+      updatedRoom2 = updatedRoom {roomObjects = newRoomObjects3, roomDescription = "The fire was put down in the corridor and you can finally see the rest of it. Aside from the familiar cantine entrance and a corridor exit on the south, there is a wounded crew member here!\n"}
+
       -- Create newAllRooms, where the InitialRoom is replaced with the updatedRoom
       currentRoomObj = currentRoom gameState
    in (Just $ gameState {currentRoom = updatedRoom2, allRooms = Map.insert (roomName currentRoomObj) updatedRoom2 (allRooms gameState), inventory = updatedInventory}, Just "You put out the fire with the blanket. \nThe electric box is out. You can see the rest of the room clearly now. \n")
@@ -203,7 +205,7 @@ translateChief gameState =
                           { objectDescription =
                               "You: Hey, chief, are you okay? What happened? \n\
                               \Qaux'ods: I'm not sure. I was in the cantine, when the ship started shaking. I ran out to see what's going on and I saw a bright flash of light. \n\
-                              \ The captain told me through the radio (plot_element), but as soon as he started explaining, the radio went silent. \n\
+                              \ The captain told me through the radio that something  collided with the ship, but as soon as he started explaining, the radio went silent. \n\
                               \ I ran to the main corridor to see if I can help anyone, but I was hit by a piece of debris. I'm not sure how long I can hold on. \n\
                               \ You: I'm sure I can help you somehow! We can get out of here togheter! \n\
                               \ Qaux'ods: No, I'm afraid it's too late for me. You need to go on and survive. The ship took a heavy blow, it won't hold on for long. \n\
@@ -233,7 +235,7 @@ lowerBridge gameState =
             roomObjects = [bridgeGap]
           }
       currentRoomObj = currentRoom gameState
-   in (Just $ gameState {currentRoom = updatedRoom, allRooms = Map.insert (roomName currentRoomObj) updatedRoom (allRooms gameState)}, Just "The key seemes to fit perfectly, you hear a loud noise, and the bridge to the (plot_element_ID1) starts lowering down...\nIt is making a loud noise, engine room must have really taken a lot of damage.\nSNAP! The bridge broke down, and fell to the bottom. On its way it made a hole in nearby vent.")
+   in (Just $ gameState {currentRoom = updatedRoom, allRooms = Map.insert (roomName currentRoomObj) updatedRoom (allRooms gameState)}, Just "The key seemes to fit perfectly, you hear a loud noise, and the bridge to the workshop starts lowering down...\nIt is making a loud noise, engine room must have really taken a lot of damage.\nSNAP! The bridge broke down, and fell to the bottom. On its way it made a hole in nearby vent.")
 
 flashOnCrate :: GameState -> (Maybe GameState, Maybe String)
 flashOnCrate gameState = (Just gameState, Just "Fingerprints can only be seen on 9 and 1 butons. \n")

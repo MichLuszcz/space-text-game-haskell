@@ -9,7 +9,7 @@ module InstructionHandlers
   )
 where
 
-import qualified Data.Map.Strict as Map
+import Data.Map.Strict qualified as Map
 import DataTypes
 import DoorHandling
 import GHC.IO.Exception (ExitCode (ExitSuccess))
@@ -87,6 +87,7 @@ handleOpen itemName gameState = case findObject itemName (roomObjects $ currentR
 
 handleUse :: String -> String -> GameState -> IO ()
 handleUse itemName targetName gameState = do
+  putStrLn ""
   let (newState, resultMsg) = useItem itemName targetName gameState
   case resultMsg of
     Just msg -> do
@@ -111,6 +112,7 @@ handleLook :: GameState -> IO ()
 handleLook gameState = do
   printEmptyLine
   putStrLn $ roomDescription (currentRoom gameState)
+  putStrLn ""
   putStrLn "You look around and see:"
   mapM_ (\obj -> putStrLn $ "  - " ++ objectName obj) (roomObjects $ currentRoom gameState)
   printEmptyLine

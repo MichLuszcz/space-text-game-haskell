@@ -48,7 +48,7 @@ module GameObjects
 where
 
 import Data.List
-import qualified Data.Map.Strict as Map
+import Data.Map.Strict qualified as Map
 import DataTypes
 
 -- Initial GameState
@@ -127,7 +127,7 @@ bed :: Object
 bed =
   Object
     { objectName = "Bed",
-      objectDescription = "There is nothing special on this bed, aside from a thick_blanket. I wonder if it could be useful later.",
+      objectDescription = "There is nothing special on this bed, aside from a Thick_Blanket. I wonder if it could be useful later.",
       objectValues = Map.fromList [("pickable", False), ("openable", False), ("door", False)]
     }
 
@@ -207,7 +207,7 @@ workshop =
         \A door North leads to the engineering chiefs office, an opening South to the escape pods",
       roomObjects =
         [alien_mass, engineering_chief_office_door, toolbox, workshop_window, small_fire, table],
-      --roomExits = Map.fromList [(West, engine_room)]
+      -- roomExits = Map.fromList [(West, engine_room)]
       roomExits = Map.fromList [(North, "Engine Room")]
     }
 
@@ -370,7 +370,7 @@ southCorridorExitDoor :: Object
 southCorridorExitDoor =
   Object
     { objectName = "South_Corridor_Exit_Door",
-      objectDescription = "This exit leads out of the living space to the other sections of the ship. \nIf you want to go through it, you need to unlock it somehow.",
+      objectDescription = "This exit leads out of the living space to the other sections of the ship. \nIt should not be locked.",
       objectValues = Map.fromList [("pickable", False), ("openable", True), ("door", True)]
     }
 
@@ -415,7 +415,7 @@ lockedSafetyBox :: Object
 lockedSafetyBox =
   Object
     { objectName = "Locked_Safety_Box",
-      objectDescription = "The safety box is locked, and the control panel wires are ripped apart \nIt won't open right now, but maybe if you reconnect the wires you could open it \nThere are 3 sockets and 3 cables. You need to connect them in the right order. \n Blue - b \nRed -r \nYellow -y \nYou can connect the wires using connect <cable1> <cable2> <cable3> \n",
+      objectDescription = "The safety box is locked, and the control panel wires are ripped apart \nIt won't open right now, but maybe if you reconnect the wires you could open it \nThere are 3 sockets and 3 cables. You need to connect them in the right order. \n Blue - b \nRed - r \nYellow - y \nYou can connect the wires using connect <cable1> <cable2> <cable3> \n",
       objectValues = Map.fromList [("pickable", False), ("openable", False), ("door", False)]
     }
 
@@ -432,7 +432,7 @@ engineRoom :: Room
 engineRoom =
   Room
     { roomName = "Engine Room",
-      roomDescription = "Damn, ship must have taken a really heavy blow, these engines look like they will explode in any second now.\nSecurity protocol must have kicked in, because the bridge to the (plot_element_ID1) is lifted to the ceeling, you need to find some way to lower it down.\nMaybe this *Control_Panel* might help.",
+      roomDescription = "Damn, ship must have taken a really heavy blow, these engines look like they will explode in any second now.\nSecurity protocol must have kicked in, because the bridge to the workshop is lifted to the celing, you need to find some way to lower it down.\nMaybe this *Control_Panel* might help.",
       roomObjects =
         [controlPanel],
       roomExits = Map.fromList [(North, "Main Corridor")]

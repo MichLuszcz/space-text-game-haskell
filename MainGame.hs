@@ -5,7 +5,7 @@
 import Control.Monad (guard)
 import Control.Monad.RWS.Class (MonadState (put))
 import Data.List
-import qualified Data.Map.Strict as Map
+import Data.Map.Strict qualified as Map
 --
 -- Module imports
 --
@@ -18,6 +18,10 @@ import PlayerActions
 import Text.XHtml (target)
 import UseHandling
 import UtilityFunctions
+  ( printEmptyLine,
+    printInstructions,
+    printSeparator,
+  )
 
 -- Main function to start the game
 main :: IO ()

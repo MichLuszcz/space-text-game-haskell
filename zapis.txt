@@ -1,0 +1,562 @@
+A loud crashing sound wakes you up in you bed inside the engineering crew bedroom. You look around and see that the room is in a mess. A vent in the east corner of the room swings wide open. Blaring alarms can be heard from the main corridor on the south side. You see a locker, a desk and a bed. You need to act, fast.
+
+You are at the crew bedroom.
+
+----------------------------------------
+
+What do you want to do?
+> look
+
+You are in the crew bedroom, there is a security door on the south, and a vent entrance on the east.
+You look around and see:
+  - Desk
+  - Bed
+  - Locker
+  - Security_Door
+  - Thick_Blanket
+
+
+----------------------------------------
+
+What do you want to do?
+> inspect Bed
+
+You inspect the Bed.
+
+There is nothing special on this bed, aside from a thick_blanket. I wonder if it could be useful later.
+
+
+----------------------------------------
+
+What do you want to do?
+> pick Thick_Blanket
+
+Pickup successful
+
+
+----------------------------------------
+
+What do you want to do?
+> inspect Locker
+
+You inspect the Locker.
+
+The locker is closed, but there is no lock on it.
+
+
+----------------------------------------
+
+What do you want to do?
+> open Locker
+
+Locker opened.
+
+
+----------------------------------------
+
+What do you want to do?
+> look
+
+You are in the crew bedroom, there is a security door on the south, and a vent entrance on the east.
+You look around and see:
+  - Hammer
+  - Desk
+  - Bed
+  - Security_Door
+
+
+----------------------------------------
+
+What do you want to do?
+> pick Hammer
+
+Pickup successful
+
+
+----------------------------------------
+
+What do you want to do?
+> check exits
+
+Available directions:
+East -> Crew Bedroom Vent
+
+
+----------------------------------------
+
+What do you want to do?
+> move E
+
+You crawl into a rather spatious crew bedroom vent. There it is! This is where you Desk_Key went! Good thing it didn't fall deeper or you would be stuck in here for ever.
+
+----------------------------------------
+
+What do you want to do?
+> look
+
+You crawl into a rather spatious crew bedroom vent. There it is! This is where you Desk_Key went! Good thing it didn't fall deeper or you would be stuck in here for ever.
+You look around and see:
+  - Desk_Key
+  - Void_Entrance
+
+
+----------------------------------------
+
+What do you want to do?
+> pick Desk_Key
+
+Pickup successful
+
+
+----------------------------------------
+
+What do you want to do?
+> look
+
+You crawl into a rather spatious crew bedroom vent. There it is! This is where you Desk_Key went! Good thing it didn't fall deeper or you would be stuck in here for ever.
+You look around and see:
+  - Void_Entrance
+
+
+----------------------------------------
+
+What do you want to do?
+> check exits
+
+Available directions:
+West -> Crew Bedroom
+
+
+----------------------------------------
+
+What do you want to do?
+> move W
+
+You are in the crew bedroom, there is a security door on the south, and a vent entrance on the east.
+
+----------------------------------------
+
+What do you want to do?
+> look
+
+You are in the crew bedroom, there is a security door on the south, and a vent entrance on the east.
+You look around and see:
+  - Desk
+  - Bed
+  - Security_Door
+
+
+----------------------------------------
+
+What do you want to do?
+> use Desk_Key on Desk
+Desk succesfully unlocked.
+
+
+----------------------------------------
+
+What do you want to do?
+> open Desk
+
+Desk opened.
+
+
+----------------------------------------
+
+What do you want to do?
+> look
+
+You are in the crew bedroom, there is a security door on the south, and a vent entrance on the east.
+You look around and see:
+  - Crew_Access_Card
+  - Bed
+  - Security_Door
+
+
+----------------------------------------
+
+What do you want to do?
+> pick Crew_Access_Card
+
+Pickup successful
+
+
+----------------------------------------
+
+What do you want to do?
+> use Crew_Access_Card on Security_Door
+Security_Door succesfully unlocked.
+
+
+----------------------------------------
+
+What do you want to do?
+> open Security_Door
+
+Security Door to the Main Corridor opened.
+
+
+----------------------------------------
+
+What do you want to do?
+> check exits
+
+Available directions:
+South -> Main Corridor
+East -> Crew Bedroom Vent
+
+
+----------------------------------------
+
+What do you want to do?
+> move S
+
+You decide it's finally time to leave your quarters. Staying here definetely won't help you find out what's going on.
+You enter the main corridor, but you can barely see anything. You can see the reason now why the alarms are going off.
+A fire is raging only a few meters in front of you. 'Probably just an overcharged e-box' - your engineer's instinct tells you. However you still can't pass through it. You need to find a way to put it out.
+Behind your back, at the west end, there is a supply cabinet, but the east end of the corridor lays behind the fire.
+
+----------------------------------------
+
+What do you want to do?
+> look
+
+You decide it's finally time to leave your quarters. Staying here definetely won't help you find out what's going on.
+You enter the main corridor, but you can barely see anything. You can see the reason now why the alarms are going off.
+A fire is raging only a few meters in front of you. 'Probably just an overcharged e-box' - your engineer's instinct tells you. However you still can't pass through it. You need to find a way to put it out.
+Behind your back, at the west end, there is a supply cabinet, but the east end of the corridor lays behind the fire.
+You look around and see:
+  - Supply_Cabinet
+  - Electric_Box
+
+
+----------------------------------------
+
+What do you want to do?
+> inspect Supply_Cabinet
+
+You inspect the Supply_Cabinet.
+
+The supply cabinet is wrapped in a chain and locked with a padlock. There is now way there is a key here.
+
+
+----------------------------------------
+
+What do you want to do?
+> use Hammer on Supply_Cabinet
+
+Ah yes, brute force. Always a good solution.
+After smashing the cabinet open with a hammer, you can look for anything useful that you can find inside.
+
+
+----------------------------------------
+
+What do you want to do?
+> open Supply_Cabinet
+
+Supply Cabinet opened.
+
+
+----------------------------------------
+
+What do you want to do?
+> look
+
+You decide it's finally time to leave your quarters. Staying here definetely won't help you find out what's going on.
+You enter the main corridor, but you can barely see anything. You can see the reason now why the alarms are going off.
+A fire is raging only a few meters in front of you. 'Probably just an overcharged e-box' - your engineer's instinct tells you. However you still can't pass through it. You need to find a way to put it out.
+Behind your back, at the west end, there is a supply cabinet, but the east end of the corridor lays behind the fire.
+You look around and see:
+  - Universal_Speech_Translator
+  - Electric_Box
+
+
+----------------------------------------
+
+What do you want to do?
+> pick Universal_Speech_Translator
+
+Pickup successful
+
+
+----------------------------------------
+
+What do you want to do?
+> use Thick_Blanket on Electric_Box
+You put out the fire with the blanket.
+The electric box is out. You can see the rest of the room clearly now.
+
+
+----------------------------------------
+
+What do you want to do?
+> look
+
+You decide it's finally time to leave your quarters. Staying here definetely won't help you find out what's going on.
+You enter the main corridor, but you can barely see anything. You can see the reason now why the alarms are going off.
+A fire is raging only a few meters in front of you. 'Probably just an overcharged e-box' - your engineer's instinct tells you. However you still can't pass through it. You need to find a way to put it out.
+Behind your back, at the west end, there is a supply cabinet, but the east end of the corridor lays behind the fire.
+You look around and see:
+  - Cantine_Entrance_Door
+  - Wounded_Engineering_Chief
+  - South_Corridor_Exit_Door
+  - Electric_Box
+
+
+----------------------------------------
+
+What do you want to do?
+> inspect Wounded_Engineering_Chief
+
+You inspect the Wounded_Engineering_Chief.
+
+You: Hey, chief, are you okay? What happened?
+Qaux'ods: Glibberflop blorptix zlorgaflar, sploink vroobleshnack glipthor flibberjib!!!
+You: I can't understand anything. God, if I only knew Luzxorian...
+
+
+----------------------------------------
+
+What do you want to do?
+> use Universal_Speech_Translator on Wounded_Engineering_Chief
+You used the translator on the wounded engineering chief.
+
+
+----------------------------------------
+
+What do you want to do?
+> inspect Wounded_Engineering_Chief
+
+You inspect the Wounded_Engineering_Chief.
+
+You: Hey, chief, are you okay? What happened?
+Qaux'ods: I'm not sure. I was in the cantine, when the ship started shaking. I ran out to see what's going on and I saw a bright flash of light.
+ The captain told me through the radio (plot_element), but as soon as he started explaining, the radio went silent.
+ I ran to the main corridor to see if I can help anyone, but I was hit by a piece of debris. I'm not sure how long I can hold on.
+ You: I'm sure I can help you somehow! We can get out of here togheter!
+ Qaux'ods: No, I'm afraid it's too late for me. You need to go on and survive. The ship took a heavy blow, it won't hold on for long.
+ Take my access card, it will open up my office, it will help you get to the escape pod. Get there and escape.
+ You: Thank you, chief. I will never forget what you've done for me.
+ Qaux'ods: It's nothing but my duty. Now go on, I need to rest.
+
+
+
+----------------------------------------
+
+What do you want to do?
+> look
+
+You decide it's finally time to leave your quarters. Staying here definetely won't help you find out what's going on.
+You enter the main corridor, but you can barely see anything. You can see the reason now why the alarms are going off.
+A fire is raging only a few meters in front of you. 'Probably just an overcharged e-box' - your engineer's instinct tells you. However you still can't pass through it. You need to find a way to put it out.
+Behind your back, at the west end, there is a supply cabinet, but the east end of the corridor lays behind the fire.
+You look around and see:
+  - Cantine_Entrance_Door
+  - Wounded_Engineering_Chief
+  - South_Corridor_Exit_Door
+  - Electric_Box
+
+
+----------------------------------------
+
+What do you want to do?
+> check inventory
+Inventory:
+  - Engineering_Chief_Access_Card
+
+
+----------------------------------------
+
+What do you want to do?
+> open South_Corridor_Exit_Door
+
+South Corridor Exit Door to the Engine Room opened.
+
+
+----------------------------------------
+
+What do you want to do?
+> check exits
+
+Available directions:
+North -> Crew Bedroom
+South -> Engine Room
+
+
+----------------------------------------
+
+What do you want to do?
+> look
+
+You decide it's finally time to leave your quarters. Staying here definetely won't help you find out what's going on.
+You enter the main corridor, but you can barely see anything. You can see the reason now why the alarms are going off.
+A fire is raging only a few meters in front of you. 'Probably just an overcharged e-box' - your engineer's instinct tells you. However you still can't pass through it. You need to find a way to put it out.
+Behind your back, at the west end, there is a supply cabinet, but the east end of the corridor lays behind the fire.
+You look around and see:
+  - Cantine_Entrance_Door
+  - Wounded_Engineering_Chief
+  - South_Corridor_Exit_Door
+  - Electric_Box
+
+
+----------------------------------------
+
+What do you want to do?
+> inspect Cantine_Entrance_Door
+
+You inspect the Cantine_Entrance_Door.
+
+This door leads to the cantine. It is not locked with any lock.
+
+
+----------------------------------------
+
+What do you want to do?
+> open Cantine_Entrance_Door
+
+Cantine Entrance Door to the Cantine opened.
+
+
+----------------------------------------
+
+What do you want to do?
+> look
+
+You decide it's finally time to leave your quarters. Staying here definetely won't help you find out what's going on.
+You enter the main corridor, but you can barely see anything. You can see the reason now why the alarms are going off.
+A fire is raging only a few meters in front of you. 'Probably just an overcharged e-box' - your engineer's instinct tells you. However you still can't pass through it. You need to find a way to put it out.
+Behind your back, at the west end, there is a supply cabinet, but the east end of the corridor lays behind the fire.
+You look around and see:
+  - Cantine_Entrance_Door
+  - Wounded_Engineering_Chief
+  - South_Corridor_Exit_Door
+  - Electric_Box
+
+
+----------------------------------------
+
+What do you want to do?
+> check exits
+
+Available directions:
+North -> Crew Bedroom
+South -> Engine Room
+East -> Cantine
+
+
+----------------------------------------
+
+What do you want to do?
+> move E
+
+You enter the cantine. You see a Locked_Safety_Box, with wires on the control panel ripped apart.
+
+
+----------------------------------------
+
+What do you want to do?
+> inspect Locked_Safety_Box
+
+You inspect the Locked_Safety_Box.
+
+The safety box is locked, and the control panel wires are ripped apart
+It won't open right now, but maybe if you reconnect the wires you could open it
+There are 3 sockets and 3 cables. You need to connect them in the right order.
+ Blue - b
+Red -r
+Yellow -y
+You can connect the wires using connect <cable1> <cable2> <cable3>
+
+
+
+----------------------------------------
+
+What do you want to do?
+> connect b r y
+
+You hear a click, but the box doesn't open.
+
+
+----------------------------------------
+
+What do you want to do?
+> connect y b r
+
+You hear a click, but the box doesn't open.
+
+
+----------------------------------------
+
+What do you want to do?
+> connect y r b
+
+You hear a click and the box opens. Something fell out of the box on the floor.
+
+
+----------------------------------------
+
+What do you want to do?
+> look
+
+You enter the cantine. You see a Locked_Safety_Box, with wires on the control panel ripped apart.
+
+You look around and see:
+  - Cyber_Key
+
+
+----------------------------------------
+
+What do you want to do?
+> pick Cyber_Key
+
+Pickup successful
+
+
+----------------------------------------
+
+What do you want to do?
+> check exits
+
+Available directions:
+West -> Main Corridor
+
+
+----------------------------------------
+
+What do you want to do?
+> move W
+
+You are in the Main Corridor.
+
+----------------------------------------
+
+What do you want to do?
+> check exits
+
+Available directions:
+North -> Crew Bedroom
+South -> Engine Room
+East -> Cantine
+
+
+----------------------------------------
+
+What do you want to do?
+> move S
+
+Damn, ship must have taken a really heavy blow, these engines look like they will explode in any second now.
+Security protocol must have kicked in, because the bridge to the workshop is lifted to the ceeling, you need to find some way to lower it down.
+Maybe this *Control_Panel* might help.
+
+----------------------------------------
+
+What do you want to do?
+> inspect Control_Panel
+
+You inspect the Control_Panel.
+
+The control panel is locked. You need to find a way to open it.
+
+
+----------------------------------------
+

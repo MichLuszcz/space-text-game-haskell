@@ -749,7 +749,7 @@ use(engineering_chief_access_card, south_corridor_exit_door) :-
 open(south_corridor_exit_door) :-
     assert(path(main_corridor, s, engine_room)),
     assert(path(engine_room, n, main_corridor)),
-    write("The doors swung right open, they lead to the (plot_element_ID1), through the engine room, this is probably your only route to get out of here."), !,
+    write("The doors swung right open, they lead to the workshop, through the engine room, this is probably your only route to get out of here."), !,
     nl.
     
 
@@ -886,7 +886,7 @@ describe(engine_room) :-
     \+ already_been_in(engine_room),
     write("Damn, ship must have taken a really heavy blow, these engines look like they will explode in any second now."),
     nl,
-    write("Security protocol must have kicked in, because the bridge to the (plot_element_ID1) is lifted to the ceeling, you need to find some way to lower it down."),
+    write("Security protocol must have kicked in, because the bridge to the workshop is lifted to the ceeling, you need to find some way to lower it down."),
     nl,
     write("Maybe this *control_panel* might help."),
     assert(already_been_in(engine_room)),
@@ -912,7 +912,7 @@ use(cyber_key, control_panel) :-
     i_am_at(engine_room),
     retract(have(cyber_key)),
     retract(at(control_panel, engine_room)),
-    write("The key seemes to fit perfectly, you hear a loud noise, and the bridge to the (plot_element_ID1) starts lowering down..."),
+    write("The key seemes to fit perfectly, you hear a loud noise, and the bridge to the workshop starts lowering down..."),
     nl,
     write("It is making a loud noise, engine room must have really taken a lot of damage."),
     nl,
