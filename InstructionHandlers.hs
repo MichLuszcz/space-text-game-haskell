@@ -9,7 +9,7 @@ module InstructionHandlers
   )
 where
 
-import Data.Map.Strict qualified as Map
+import qualified Data.Map.Strict as Map
 import DataTypes
 import DoorHandling
 import GHC.IO.Exception (ExitCode (ExitSuccess))

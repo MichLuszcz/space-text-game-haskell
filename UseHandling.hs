@@ -2,7 +2,7 @@ module UseHandling where
 
 import Control.Monad.RWS.Lazy (MonadState (put))
 import Data.List
-import Data.Map.Strict qualified as Map
+import qualified Data.Map.Strict as Map
 import DataTypes
 import Distribution.Compat.Lens (use)
 import GameObjects
